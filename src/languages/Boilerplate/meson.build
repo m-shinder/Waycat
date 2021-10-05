@@ -1,0 +1,26 @@
+languages += [
+	files(
+	    'BoilerplateLanguage.vala',
+	    'IWorkbenchItem.vala',
+	    'Statement.vala',
+	    'IStatementPlace.vala',
+	    'blocks/statements/StatementBlock.vala',
+	    'blocks/statements/DeclarationStmtBlock.vala',
+	    'blocks/statements/AssignStmtBlock.vala',
+	    'blocks/statements/ExpressionStmtBlock.vala',
+	    'blocks/EntrypointBlock.vala',
+	    'blocks/containers/ContainerBlock.vala',
+	    'blocks/containers/DoubleContainerBlock.vala',
+	    'blocks/containers/ReverseContainerBlock.vala',
+	    'blocks/containers/ForLoopBlock.vala',
+	    'blocks/ValueBlock.vala',
+	    'blocks/AngleBlock.vala',
+	    'blocks/RoundBlock.vala',
+	    'blocks/EditableRoundBlock.vala',
+	    'blocks/CallRoundBlock.vala',
+	    'blocks/DoubleRoundBlock.vala',
+	    'blocks/StatementPlace.vala',
+	    'blocks/RoundPlace.vala',
+	    'blocks/AnglePlace.vala',
+	)
+]
