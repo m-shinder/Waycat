@@ -6,7 +6,7 @@ class Waycat.WaycatApp : Gtk.Application {
         );
     }
 
-    public override void activate () {
+    public override void activate() {
         Gtk.Builder builder = new Gtk.Builder();
 
         try {
@@ -16,7 +16,7 @@ class Waycat.WaycatApp : Gtk.Application {
         }
 
         var win = (Gtk.Window)builder.get_object("window");
-        Language lang = new BoilerplateLanguage();
+        Language lang = new ExampleLanguage();
         var workbench = (Gtk.Fixed)builder.get_object("workbench");
         workbench_setup(workbench, lang);
         leftSidemenu_setup((Gtk.ScrolledWindow)builder.get_object("blocks-scroll"), lang);

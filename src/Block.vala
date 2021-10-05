@@ -11,9 +11,7 @@ public abstract class Waycat.Block : Gtk.Widget {
     // language only?
     public abstract bool break_free();
 
-    public virtual bool on_workbench() {
-        return false;
-    }
+    public abstract bool on_workbench();
     
     // language only?
     public virtual string serialize() {

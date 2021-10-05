@@ -15,7 +15,11 @@ abstract class Boilerplate.ValueBlock : Waycat.Block {
         this.color.parse(color);
         label.set_parent(this);
     }
-
+    
+    public override bool on_workbench() {
+        return true;
+    }
+    
     public override void dispose() {
         label.unparent();
     }
