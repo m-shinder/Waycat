@@ -13,11 +13,6 @@ public abstract class Waycat.Block : Gtk.Widget {
 
     public abstract bool on_workbench();
     
-    // language only?
-    public virtual string serialize() {
-        return "";
-    }
-    
     public override void dispose() {
         var list = this.observe_children();
         for (uint i=0; i < list.get_n_items(); i++) {

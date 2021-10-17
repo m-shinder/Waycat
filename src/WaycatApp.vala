@@ -16,7 +16,7 @@ class Waycat.WaycatApp : Gtk.Application {
         }
 
         var win = (Gtk.Window)builder.get_object("window");
-        Language lang = new ExampleLanguage();
+        Language lang = new Python381Language();
         var workbench = (Gtk.Fixed)builder.get_object("workbench");
         workbench_setup(workbench, lang);
         leftSidemenu_setup((Gtk.ScrolledWindow)builder.get_object("blocks-scroll"), lang);
