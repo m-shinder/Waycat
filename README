@@ -1,0 +1,20 @@
+# Waycat -- scratch-like editor for programming languages
+
+## How to build
+the easies way, is using GnomeBuilder, select folder, and click "run"
+Or, if you want, you can build directly with meson https://mesonbuild.com/Tutorial.html
+```
+meson setup /path/to/desired/builddir
+cd /path/to/desired/builddir
+ninja
+```
+### depends on:
+	. vala (tested with 0.54)
+	. gtk4 -- the newest (not the best)
+	. sourceview-5
+### Known issues:
+. sombody messed up with vapi files
+	INFILE: `/usr/share/vala-X.YY/vapi/gtk4.vapi`
+	LINE: `public virtual bool get_value (GLib.Value value) throws GLib.Error;`
+	SHOULDBE `public virtual bool get_value (ref GLib.Value value) throws GLib.Error;`
+

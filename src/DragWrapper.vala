@@ -10,8 +10,8 @@ namespace Waycat {
             this.halign = Gtk.Align.START;
             this.valign = Gtk.Align.START;
 
-            int m, n;
-            measure(Gtk.Orientation.VERTICAL, -1, out m, out n, null, null);
+            //int m, n;
+            //measure(Gtk.Orientation.VERTICAL, -1, out m, out n, null, null);
         }
         
         public Gtk.Widget get_child()

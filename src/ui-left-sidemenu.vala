@@ -64,8 +64,10 @@ namespace Waycat {
             } catch (Error err) {
                 print("Error %s\n", err.message);
             }
-            var block = (val.get_object() as DragWrapper).get_child() as Block;
+            var wrap = (val.get_object() as DragWrapper);
+            var block = wrap.get_child() as Block;
             block.on_workbench();
+            lang.update_insert(block);
         });
         
         source.drag_cancel.connect ((source_origin, drag, reason) => {

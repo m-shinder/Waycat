@@ -78,7 +78,6 @@ namespace Waycat {
                 }
             } else {
                 workbench.put(draggable_widget, x - draggable_widget.mousex, y - draggable_widget.mousey);
-                lang.update_insert((Block)draggable_widget.get_child());
             }
             return true;
         });
