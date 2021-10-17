@@ -8,7 +8,7 @@ abstract class Example.Block : Waycat.Block {
         base(0, id++);
     }
     
-    public override string serialize() {
+    public virtual string serialize() {
         return "UEO";
     }
     
