@@ -103,8 +103,10 @@ class Python381Language : Waycat.Language {
         int size = 0;
         var list = new Gee.ArrayList<Waycat.Block>(null);
         AnchorHeader temp = null;
-        while ((temp = next_AnchorHeader(fileNode, ref size)) != null)
+        while ((temp = next_AnchorHeader(fileNode, ref size)) != null) {
             list.add(temp);
+            update_insert(temp);
+        }
 
        Waycat.Block[] blocks = new Waycat.Block[list.size];
        size = 0;
