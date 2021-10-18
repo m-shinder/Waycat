@@ -101,10 +101,8 @@ class Python381Language : Waycat.Language {
                 Python.Token.FILE_INPUT
         );
         Waycat.Block[] blocks = NodeBuilder.instance.parse_node(fileNode);
-        print(" gbfb %d\n", blocks.length);
         for (int i =0; i < blocks.length; i++)
             update_insert(blocks[i]);
-        print(" gbfb %d\n", blocks.length);
         return blocks;
     }
 }

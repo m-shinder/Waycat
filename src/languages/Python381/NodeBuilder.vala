@@ -1,8 +1,13 @@
 using Python381;
-class Python381.NodeBuilder {
+class Python381.NodeBuilder : Object{
+    private static NodeBuilder _instance = null;
     public static NodeBuilder instance {
-        get; private set;
-        default = new NodeBuilder();
+        get {
+            if ( _instance == null)
+                _instance = new NodeBuilder();
+            return _instance;
+        }
+        private set { _instance = value; }
     }
 
     private NodeBuilder() {
@@ -21,12 +26,10 @@ class Python381.NodeBuilder {
        size = 0;
        foreach (Waycat.Block blk in list)
             blocks[size++] = blk;
-        print("%d\n", size);
         return blocks;
     }
 
     private AnchorHeader? next_AnchorHeader(Python.Parser.Node file, ref int i) {
-        print("Next %d\n", i);
         while(file[i].type == Python.Token.NEWLINE)
             i++;
         if (file[i].type == Python.Token.ENDMARKER)
@@ -44,7 +47,6 @@ class Python381.NodeBuilder {
             while(file[i].type == Python.Token.NEWLINE)
                 i++;
         }
-        print("next %d\n", i);
         return anchor;
     }
 }
