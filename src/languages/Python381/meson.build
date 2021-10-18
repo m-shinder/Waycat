@@ -6,11 +6,13 @@ languages += [
 		'BlockComponent.vala',
 
 		'blocks/components/bases/CheckBase.vala',
+		'blocks/components/bases/LabelButtonBase.vala',
 
 		'blocks/components/StatementPlace.vala',
 		'blocks/components/AnglePlace.vala',
 		'blocks/components/RoundPlace.vala',
 		'blocks/components/SmallStmtCheck.vala',
+		'blocks/components/ToggleButton.vala',
 
 		'blocks/bases/StatementBase.vala',
 		'blocks/bases/SimpleStmtBase.vala',
