@@ -19,12 +19,12 @@ dependencies = [
     dependency ('gtk4', version: '>= 4.0.0'),
     dependency ('gee-0.8'),
     dependency ('gtksourceview-5'),
-    dependency ('python-3.8'),
+    dependency ('python-3.8-embed'),
     meson.get_compiler ('c').find_library ('m', required: false),
 ]
 vala_args = [
 	'--gresources', resource_files,
-	'--vapidir', '.',
+#	'--vapidir', files('languages/Python381/tokens.vapi'),
 ]
 executable (
     meson.project_name(),

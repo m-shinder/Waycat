@@ -1,7 +1,7 @@
-[CCode (cname = "", cheader_filename = "graminit.h")]
-namespace Python.Token {
+[CCode (cname = "", cheader_filename = "token.h,graminit.h")]
+namespace Python {
 	[CCode (cname = "", cprefix = "")]
-	public enum Terminal {
+	public enum Token {
 		ENDMARKER, NAME, NUMBER, STRING, NEWLINE, INDENT,
 		DEDENT, LPAR, RPAR, LSQB, RSQB, COLON, COMMA, SEMI,
 		PLUS, MINUS, STAR, SLASH, VBAR, AMPER, LESS, GREATER,
@@ -13,9 +13,7 @@ namespace Python.Token {
 		DOUBLESLASHEQUAL, AT, ATEQUAL, RARROW, ELLIPSIS,
 		COLONEQUAL, OP, AWAIT, ASYNC, TYPE_IGNORE,
 		TYPE_COMMENT, ERRORTOKEN, N_TOKENS,
-	}
-	[CCode (cname = "", cprefix = "")]
-	public enum NonTerminal {
+		NT_OFFSET,
 		[CCode (cname = "single_input")] SINGLE_INPUT,
 		[CCode (cname = "file_input")] FILE_INPUT,
 		[CCode (cname = "eval_input")] EVAL_INPUT,

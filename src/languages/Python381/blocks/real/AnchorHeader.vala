@@ -1,5 +1,6 @@
 class Python381.AnchorHeader : Block {
     protected Gdk.RGBA color;
+    [CCode (cname = "next_stmt")]
     public StatementPlace stmt = new StatementPlace(8);
     public const int OWN_HEIGHT = 64;
     public Gtk.TextMark start = null;

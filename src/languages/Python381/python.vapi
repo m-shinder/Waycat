@@ -1,4 +1,4 @@
-[CCode (lower_case_cprefix = "Py_", cheader_filename = "Python.h,node.h")]
+[CCode (lower_case_cprefix = "Py_", cheader_filename = "Python.h,node.h,token.h,graminit.h")]
 namespace Python
 {
     public void Initialize ();
@@ -75,13 +75,29 @@ namespace Python
 			public void list_tree();
 			// macro accessors
 			[CCode (cname = "CHILD")]
-			public Node get(int index);
+			public unowned Node get(int index);
+			public int size   { [CCode (cname = "NCH")]   get; }
 			public int type   { [CCode (cname = "TYPE")]   get; }
 			public string str { [CCode (cname = "STR")]    get; }
 			public int lineno { [CCode (cname = "LINENO")] get; }
 			[CCode (cname = "REQ")]
 			public void reqtype(int type);
+			// my own helpers
+			public bool indirect() {
+			    if (this[0].type == Python.Token.SIMPLE_STMT)
+			        return false;
+			    if (this[0][0].type == Python.Token.DECORATED)
+			        return true;
+			    if (this[0][0].type == Python.Token.CLASSDEF)
+			        return true;
+			    if (this[0][0].type == Python.Token.FUNCDEF)
+			        return true;
+			    if (this[0][0].type == Python.Token.ASYNC_STMT)
+			        if (this[0][0][0].type == Python.Token.FUNCDEF)
+			            return true;
+		        return false;
+			}
 		}
-		public Node SimpleParseString(string s, Python.CompilerInput input);
+		public Node SimpleParseString(uint8* s, Python.Token input);
 	}
 }

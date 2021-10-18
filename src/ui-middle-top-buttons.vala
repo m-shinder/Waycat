@@ -18,22 +18,12 @@ namespace Waycat {
              dialog.response.connect((response) => {
                 if (response == -3) {
                     file = dialog.get_file();
-                    lang.open_iStream(file.read());
+                    place_blocks_on_workbench(workbench, lang.open_iStream(file.read()));
                 }
                 dialog.destroy();
             });
             dialog.show();
         });
-    }
-    private void save_helper(Language lang, File? file) {
-        if (file == null )
-            return;
-        try {
-            lang.save_buffer_to_oStream(file.replace(null, false, FileCreateFlags.NONE, null));
-        }
-        catch (Error e) {
-            print("Error\n");
-        }
     }
 
     public void setup_workflow_buttons(Gtk.Box save_sync_run, Gtk.Fixed workbench, Language lang) {
@@ -69,5 +59,31 @@ namespace Waycat {
                 lang.update_insert(block);
             }
         });
+    }
+
+    private void save_helper(Language lang, File? file) {
+        if (file == null )
+            return;
+        try {
+            lang.save_buffer_to_oStream(file.replace(null, false, FileCreateFlags.NONE, null));
+        }
+        catch (Error e) {
+            print("Error\n");
+        }
+    }
+
+    private void place_blocks_on_workbench(Gtk.Fixed workbench, Block[] blocks) {
+        int place_as_x = 20;
+        int place_as_y = 20;
+        var list = workbench.observe_children();
+        while (list.get_n_items() != 0)
+            workbench.remove(list.get_item(0) as Gtk.Widget);
+
+        foreach (var block in blocks) {
+            Gtk.Requisition req;
+            workbench.put(new DragWrapper(block), place_as_x, place_as_y);
+            block.get_preferred_size(out req, null);
+            place_as_y += req.height + 20;
+        }
     }
 }
