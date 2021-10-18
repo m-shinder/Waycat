@@ -20,52 +20,50 @@ class Python381Language : Waycat.Language {
     }
 
     public override bool update_remove(Waycat.Block block) {
-/*        var entry = block as EntrypointBlock;
-        if (entry == null) {
-            entry = (EntrypointBlock)block.get_ancestor(typeof(EntrypointBlock));
-            if (entry != null) {
-                update_remove(entry);
+        var anchor = block as AnchorHeader;
+        if (anchor == null) {
+            anchor = (AnchorHeader)block.get_ancestor(typeof(AnchorHeader));
+            if (anchor != null) {
+                update_remove(anchor);
                 block.break_free();
-                update_insert(entry);
+                update_insert(anchor);
             } else {
                 block.break_free();
             }
         } else {
             Gtk.TextIter start, end;
-            buffer.get_iter_at_mark(out start, entry.start);
-            buffer.get_iter_at_mark(out end, entry.end);
+            buffer.get_iter_at_mark(out start, anchor.start);
+            buffer.get_iter_at_mark(out end, anchor.end);
             buffer.@delete(ref start, ref end);
-            buffer.move_mark(entry.end, start);
+            buffer.move_mark(anchor.end, start);
             return true;
-        }*/
+        }
         return false;
     }
 
     public override bool update_insert(Waycat.Block block) {
-/*
-        var entry = block as EntrypointBlock;
-        if (entry == null) {
-            entry = (EntrypointBlock)
-                        block.get_ancestor(typeof(EntrypointBlock));
-            if (entry != null)
-                update_remove(entry);
+        var anchor = block as AnchorHeader;
+        if (anchor == null) {
+            anchor = (AnchorHeader)
+                        block.get_ancestor(typeof(AnchorHeader));
+            if (anchor != null)
+                update_remove(anchor);
         }
 
-        if (entry != null) {
+        if (anchor != null) {
             Gtk.TextIter end;
             buffer.get_end_iter(out end);
-            if (entry.start == null) {
-                entry.start = new Gtk.TextMark(null, true);
-                buffer.add_mark(entry.start, end);
+            if (anchor.start == null) {
+                anchor.start = new Gtk.TextMark(null, true);
+                buffer.add_mark(anchor.start, end);
             }
-            if (entry.end == null) {
-                entry.end = new Gtk.TextMark(null, false);
-                buffer.add_mark(entry.end, end);
+            if (anchor.end == null) {
+                anchor.end = new Gtk.TextMark(null, false);
+                buffer.add_mark(anchor.end, end);
             }
-            buffer.insert(ref end, entry.serialize(), entry.serialize().length);
+            buffer.insert(ref end, "", 0);
             return true;
         }
-*/
         return false;
     }
 
