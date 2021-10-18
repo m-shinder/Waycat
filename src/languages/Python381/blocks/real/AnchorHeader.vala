@@ -16,7 +16,9 @@ class Python381.AnchorHeader : Block {
     public override bool break_free() { return true; } // anchors always free
 
     public override Python.Parser.Node get_node() {
-        return null;
+        if (stmt.item == null)
+            return null;
+        return stmt.item.get_node();
     }
 
     public override void dispose() {

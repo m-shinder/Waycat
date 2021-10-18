@@ -13,6 +13,7 @@ abstract class Python381.CheckBase : BlockComponent {
             if ( this.contains(x, y) == false )
                 return;
             checked = !checked;
+            this.queue_draw();
         });
 
         this.add_controller(click);
@@ -26,6 +27,7 @@ abstract class Python381.CheckBase : BlockComponent {
                                  out int min_baseline,
                                  out int nat_baseline) {
             minimum = natural = SIZE;
+            min_baseline = nat_baseline = -1;
     }
 
     public override void snapshot(Gtk.Snapshot snapshot) {

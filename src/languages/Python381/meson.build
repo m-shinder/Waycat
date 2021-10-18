@@ -12,10 +12,12 @@ languages += [
 		'blocks/components/SmallStmtCheck.vala',
 
 		'blocks/bases/StatementBase.vala',
+		'blocks/bases/SimpleStmtBase.vala',
 		'blocks/bases/AngleBlock.vala',
 		'blocks/bases/RoundBlock.vala',
 
 		'blocks/real/AnchorHeader.vala',
+		'blocks/real/smallTrivialStmts.vala',
 
 		'tokens.vapi',
 	)

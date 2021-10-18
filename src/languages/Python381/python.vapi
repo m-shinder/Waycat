@@ -59,18 +59,18 @@ namespace Python
 		[Compact]
 		public class Node {
 			public short  n_type;
-			public string n_str;
+			public char*  n_str;
 			public int    n_lineno;
 			public int    n_col_offset;
 			public int    n_nchildren;
-			public Node[] n_child;
+			public void*  n_child; // it is not array of objects :(
 			public int    n_end_lineno;
 			public int    n_end_col_offset;
 			// functions
 			[CCode (cname = "PyNode_New")]
 			public Node(int type);
 			[CCode (cname = "PyNode_AddChild")]
-			public int add_child(int type, string s, int line, int col, int end_line, int end_col);
+			public int add_child(int type, uint8* s, int line, int col, int end_line, int end_col);
 			[CCode (cname = "PyNode_ListTree")]
 			public void list_tree();
 			// macro accessors
@@ -83,6 +83,17 @@ namespace Python
 			[CCode (cname = "REQ")]
 			public void reqtype(int type);
 			// my own helpers
+			public void set_child(int index, Node newvalue) {
+			    unowned var old = this[index];
+			    old.n_type = newvalue.n_type;
+                old.n_str = newvalue.n_str;
+                old.n_lineno = newvalue.n_lineno;
+                old.n_col_offset = newvalue.n_col_offset;
+                old.n_nchildren = newvalue.n_nchildren;
+                old.n_child = newvalue.n_child;
+                old.n_end_lineno = newvalue.n_end_lineno;
+                old.n_end_col_offset = newvalue.n_end_col_offset;
+			}
 			public bool indirect() {
 			    if (this[0].type == Python.Token.SIMPLE_STMT)
 			        return false;

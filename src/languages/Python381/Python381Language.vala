@@ -13,6 +13,11 @@ class Python381Language : Waycat.Language {
     public override Waycat.Block[] get_blocks() {
         Waycat.Block[] blocks = {
             new AnchorHeader(),
+            new ExprStmt(),
+            new DelStmt(),
+            new GlobalStmt(),
+            new NonlocalStmt(),
+            new AssertStmt(),
         };
         Block.reset_count();
         return blocks;
