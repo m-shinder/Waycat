@@ -5,8 +5,12 @@ languages += [
 		'BlockComponent.vala',
 
 		'blocks/components/StatementPlace.vala',
+		'blocks/components/AnglePlace.vala',
+		'blocks/components/RoundPlace.vala',
 
 		'blocks/bases/StatementBase.vala',
+		'blocks/bases/AngleBlock.vala',
+		'blocks/bases/RoundBlock.vala',
 
 		'blocks/real/AnchorHeader.vala',
 

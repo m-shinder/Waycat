@@ -37,7 +37,9 @@ class Python381.StatementPlace : BlockComponent {
     }
 
     public override Python.Parser.Node get_node() {
-        return null;
+        if (item==null)
+            return null;
+        return item.get_node();
     }
 
     public override void measure(Gtk.Orientation orientation,

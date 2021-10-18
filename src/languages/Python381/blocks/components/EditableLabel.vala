@@ -82,7 +82,7 @@ class Python381.EditableLabel : BlockComponent {
         base.snapshot(snapshot);
     }
 
-    public override string serialize() {
-        return text;
+    public override Python.Parser.Node get_node() {
+        return null;
     }
 }

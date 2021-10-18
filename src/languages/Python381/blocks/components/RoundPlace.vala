@@ -24,10 +24,10 @@ class Python381.RoundPlace : BlockComponent {
         return true;
     }
 
-    public override string serialize() {
+    public override Python.Parser.Node get_node() {
         if (item==null)
-            return "";
-        return item.serialize();
+            return null;
+        return item.get_node();
     }
 
     public override void measure(Gtk.Orientation orientation,
