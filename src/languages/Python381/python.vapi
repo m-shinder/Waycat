@@ -1,4 +1,4 @@
-[CCode (lower_case_cprefix = "Py_", cheader_filename = "Python.h,node.h,token.h,graminit.h")]
+[CCode (lower_case_cprefix = "Py_", cheader_filename = "Python.h,node.h")]
 namespace Python
 {
     public void Initialize ();

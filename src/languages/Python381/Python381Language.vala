@@ -100,39 +100,11 @@ class Python381Language : Waycat.Language {
                 buffer.get_text(start, end, true).data,
                 Python.Token.FILE_INPUT
         );
-        int size = 0;
-        var list = new Gee.ArrayList<Waycat.Block>(null);
-        AnchorHeader temp = null;
-        while ((temp = next_AnchorHeader(fileNode, ref size)) != null) {
-            list.add(temp);
-            update_insert(temp);
-        }
-
-       Waycat.Block[] blocks = new Waycat.Block[list.size];
-       size = 0;
-       foreach (Waycat.Block blk in list)
-            blocks[size++] = blk;
+        Waycat.Block[] blocks = NodeBuilder.instance.parse_node(fileNode);
+        print(" gbfb %d\n", blocks.length);
+        for (int i =0; i < blocks.length; i++)
+            update_insert(blocks[i]);
+        print(" gbfb %d\n", blocks.length);
         return blocks;
-    }
-
-    private AnchorHeader? next_AnchorHeader(Python.Parser.Node file, ref int i) {
-        while(file[i].type == Python.Token.NEWLINE)
-            i++;
-        if (file[i].type == Python.Token.ENDMARKER)
-            return null;
-
-        var anchor = new AnchorHeader();
-        bool parse_simple = (file[i][0].type == Python.Token.SIMPLE_STMT);
-
-        if (!parse_simple) {
-            i++;
-            return anchor;
-        }
-        while( file[i].type != Python.Token.ENDMARKER && !file[i].indirect() ){
-            i++;
-            while(file[i].type == Python.Token.NEWLINE)
-                i++;
-        }
-        return anchor;
     }
 }
