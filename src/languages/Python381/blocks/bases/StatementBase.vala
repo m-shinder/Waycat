@@ -5,4 +5,11 @@ abstract class Python381.StatementBase : Block {
 
     }
 
+    public override bool break_free() {
+        var place = get_parent().get_parent() as StatementPlace;
+        if (place != null)
+            place.item = null;
+        return true;
+    }
+
 }

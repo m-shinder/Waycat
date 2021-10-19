@@ -31,13 +31,6 @@ abstract class Python381.SimpleStmtBase : StatementBase {
         return true;
     }
 
-    public override bool break_free() {
-        var place = get_parent().get_parent() as StatementPlace;
-        if (place != null)
-            place.item = null;
-        return true;
-    }
-
     public override Python.Parser.Node get_node() {
         var simple = new Python.Parser.Node(Python.Token.SIMPLE_STMT);
         SimpleStmtBase cont = this;
