@@ -4,8 +4,8 @@ abstract class Python381.BlockComponent : Gtk.Widget {
 
     public override void dispose() {
         var list = this.observe_children();
-        for (uint i=0; i < list.get_n_items(); i++) {
-            var comp = list.get_item(i) as Gtk.Widget;
+        for (list.get_n_items() != 0) {
+            var comp = list.get_item(0) as Gtk.Widget;
             if (comp != null)
                 comp.unparent();
         }
