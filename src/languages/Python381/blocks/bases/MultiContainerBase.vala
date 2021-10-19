@@ -132,7 +132,7 @@ abstract class Python381.MultiContainerBase : StatementBase {
         cr.fill();
 
         footer.allocate_size({
-            w-CONTENT_OFFSET, voffset + (int)FOOTER_STEP/2,
+            w-8-creq.width, voffset + (int)FOOTER_STEP/2,
             creq.width, creq.height
         }, -1);
         voffset += creq.height + FOOTER_STEP;
