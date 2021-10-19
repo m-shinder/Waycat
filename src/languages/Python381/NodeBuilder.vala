@@ -109,7 +109,7 @@ class Python381.NodeBuilder : GLib.Object{
                 res = new ExprStmt(); // TODO
             break;
             case Token.IMPORT_STMT:
-                res = new ImportNameStmt();
+                res = parse_small_import(stmt[0]);
             break;
             case Token.GLOBAL_STMT:
                 res = new GlobalStmt();
@@ -125,6 +125,24 @@ class Python381.NodeBuilder : GLib.Object{
             break;
         }
         return res;
+    }
+
+    private SimpleStmtBase parse_small_import(Parser.Node import) {
+        if (import[0].type == Token.IMPORT_NAME) {
+            var block = new ImportNameStmt();
+            var w = new Waycat.DragWrapper(parse_small_import_dotNames(import[0][1]));
+            block.dotNamesPlace.item = w.get_child() as AngleBlock;
+            block.dotNamesPlace.item.on_workbench();
+            return block;
+        } else {
+            return new ImportFromStmt();
+        }
+    }
+
+    private AngleBlock parse_small_import_dotNames(Parser.Node names) {
+        var self = new NameConst();
+        self.lbl.text = names[0][0][0].n_str;
+        return self;
     }
 
     private StatementBase parse_compound(Parser.Node stmt) {

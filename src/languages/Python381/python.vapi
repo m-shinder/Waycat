@@ -59,7 +59,7 @@ namespace Python
 		[Compact]
 		public class Node {
 			public short  n_type;
-			public char*  n_str;
+			public string  n_str;
 			public int    n_lineno;
 			public int    n_col_offset;
 			public int    n_nchildren;

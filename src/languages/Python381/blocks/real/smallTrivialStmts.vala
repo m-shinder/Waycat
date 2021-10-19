@@ -49,7 +49,7 @@ namespace Python381 {
     }
 
     class ImportNameStmt : SimpleStmtBase {
-        private AnglePlace dotNamesPlace = new AnglePlace();
+        public AnglePlace dotNamesPlace = new AnglePlace();
         public ImportNameStmt() {
             base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("import"));
