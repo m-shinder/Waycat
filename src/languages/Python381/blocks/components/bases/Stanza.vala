@@ -5,5 +5,13 @@ struct Python381.Stanza {
         content = c;
         stmt = s;
     }
-
+    public void set_parent(Gtk.Widget? w) {
+        if (w == null) {
+            content.unparent();
+            stmt.unparent();
+            return;
+        }
+        content.set_parent(w);
+        stmt.set_parent(w);
+    }
 }

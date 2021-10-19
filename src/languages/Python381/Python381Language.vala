@@ -14,6 +14,7 @@ class Python381Language : Waycat.Language {
         Waycat.Block[] blocks = {
             new AnchorHeader(),
             new FuncDef(),
+            new WhileLoop(),
             new ExprStmt(),
             new DelStmt(),
             new GlobalStmt(),

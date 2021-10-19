@@ -162,4 +162,11 @@ abstract class Python381.MultiContainerBase : StatementBase {
         if (id == 0)
             creq.height += HEADER_ADDITION;
     }
+
+    protected int add_stanza(int insert, Stanza s) {
+        if (insert == -1 )
+            insert = stanzas.size;
+        stanzas.insert(insert, s);
+        return insert;
+    }
 }
