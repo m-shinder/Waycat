@@ -9,7 +9,27 @@ abstract class Python381.MultiContainerBase : StatementBase {
 
     protected MultiContainerBase(string c, owned Stanza?[] items) {
         stanzas = new Gee.ArrayList<Stanza?>.wrap(items);
+        foreach (var stanza in stanzas) {
+            stanza.content.set_parent(this);
+            stanza.stmt.set_parent(this);
+        }
         color.parse(c);
+    }
+
+    public override bool on_workbench() {
+        foreach (var stanza in stanzas) {
+            var list = stanza.content.observe_children();
+            for (int i=0; i < list.get_n_items(); i++)
+                if (list.get_item(i) is BlockComponent)
+                    (list.get_item(i)as BlockComponent).on_workbench();
+            stanza.stmt.on_workbench();
+        }
+        var list = footer.observe_children();
+        for (int i=0; i < list.get_n_items(); i++)
+            if (list.get_item(i) is BlockComponent)
+                (list.get_item(i)as BlockComponent).on_workbench();
+        stmt.on_workbench();
+        return true;
     }
 
     public override void measure(Gtk.Orientation orientation,
@@ -25,7 +45,7 @@ abstract class Python381.MultiContainerBase : StatementBase {
                 Gtk.Requisition creq, sreq;
                 stanza.content.get_preferred_size(out creq, null);
                 stanza.stmt.get_preferred_size(out sreq, null);
-                minimum = (int)Math.fmax(creq.width + CONTENT_OFFSET, sreq.width);
+                minimum = (int)Math.fmax(creq.width + CONTENT_OFFSET +16, sreq.width + 16);
                 natural = (int)Math.fmax(natural, minimum);
             }
             Gtk.Requisition req;
@@ -70,11 +90,11 @@ abstract class Python381.MultiContainerBase : StatementBase {
             creq.width, creq.height - SEPARATOR_STEP
         }, -1);
         stanzas[0].stmt.allocate_size({
-            CONTENT_OFFSET, HEADER_ADDITION + creq.height,
-            sreq.width, sreq.height
+            16, HEADER_ADDITION + creq.height,
+            w-16, sreq.height
         }, -1);
 
-        voffset += HEADER_ADDITION + creq.height + sreq.height;
+        voffset += HEADER_ADDITION + creq.height + sreq.height -8;
         for (int i = 1; i < stanzas.size; i++) {
             measure_stanza(i, out creq, out sreq);
             cr.line_to(16, voffset);
@@ -90,19 +110,19 @@ abstract class Python381.MultiContainerBase : StatementBase {
                 creq.width, creq.height - SEPARATOR_STEP
             }, -1);
             stanzas[i].stmt.allocate_size({
-                CONTENT_OFFSET, voffset + creq.height,
+                16, voffset + creq.height,
                 sreq.width, sreq.height
             }, -1);
-            voffset += creq.height + sreq.height;
+            voffset += creq.height + sreq.height -8;
         }
         footer.get_preferred_size(out creq, null);
         cr.line_to(16, voffset);
         cr.line_to(w-1,voffset);
 
-        cr.line_to(w-1, voffset + creq.height);
-        cr.line_to(32,  voffset + creq.height);
-        cr.arc(24, voffset + creq.height, 8, 0, Math.PI);
-        cr.line_to(1, voffset + creq.height);
+        cr.line_to(w-1, voffset + creq.height + FOOTER_STEP);
+        cr.line_to(32,  voffset + creq.height + FOOTER_STEP);
+        cr.arc(24, voffset + creq.height + FOOTER_STEP, 8, 0, Math.PI);
+        cr.line_to(1, voffset + creq.height + FOOTER_STEP);
         cr.close_path();
 
         cr.set_source_rgba (1, 1, 1, 1);
@@ -112,13 +132,16 @@ abstract class Python381.MultiContainerBase : StatementBase {
         cr.fill();
 
         footer.allocate_size({
-            CONTENT_OFFSET, voffset + (int)FOOTER_STEP/2,
+            w-CONTENT_OFFSET, voffset + (int)FOOTER_STEP/2,
             creq.width, creq.height
         }, -1);
+        voffset += creq.height + FOOTER_STEP;
 
         stmt.get_preferred_size(out sreq, null);
+        if (sreq.width == 0)
+            sreq.width = get_width();
         stmt.allocate_size({
-            0, h,
+            0, voffset-8,
             sreq.width, sreq.height
         }, -1);
 
@@ -132,6 +155,8 @@ abstract class Python381.MultiContainerBase : StatementBase {
         } else {
             stanzas[id].content.get_preferred_size(out creq, null);
             stanzas[id].stmt.get_preferred_size(out sreq, null);
+            if (sreq.width == 0)
+                sreq.width = get_width()-16;
         }
         creq.height += SEPARATOR_STEP;
         if (id == 0)
