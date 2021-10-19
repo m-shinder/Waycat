@@ -1,7 +1,7 @@
 using Python;
 namespace Python381 {
     class ExprStmt : SimpleStmtBase {
-        private RoundPlace exprPlace = new RoundPlace();
+        public RoundPlace exprPlace = new RoundPlace();
         public ExprStmt() {
             base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(exprPlace);
@@ -35,7 +35,7 @@ namespace Python381 {
         }
     }
     class DelStmt : SimpleStmtBase {
-        private RoundPlace exprPlace = new RoundPlace();
+        public RoundPlace exprPlace = new RoundPlace();
         public DelStmt() {
             base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("delete"));
@@ -83,8 +83,8 @@ namespace Python381 {
     }
 
     class ImportFromStmt : SimpleStmtBase {
-        private AnglePlace sourcePlace = new AnglePlace();
-        private AnglePlace dotNamesPlace = new AnglePlace();
+        public AnglePlace sourcePlace = new AnglePlace();
+        public AnglePlace dotNamesPlace = new AnglePlace();
         public ImportFromStmt() {
             base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("from"));
@@ -102,7 +102,7 @@ namespace Python381 {
     }
     // TODO: flow and import statements
     class GlobalStmt : SimpleStmtBase {
-        private RoundPlace exprPlace = new RoundPlace();
+        public RoundPlace exprPlace = new RoundPlace();
         public GlobalStmt() {
             base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("global"));
@@ -120,7 +120,7 @@ namespace Python381 {
     }
 
     class NonlocalStmt : SimpleStmtBase {
-        private RoundPlace exprPlace = new RoundPlace();
+        public RoundPlace exprPlace = new RoundPlace();
         public NonlocalStmt() {
             base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("nonlocal"));
@@ -138,7 +138,7 @@ namespace Python381 {
     }
 
     class AssertStmt : SimpleStmtBase {
-        private RoundPlace exprPlace = new RoundPlace();
+        public RoundPlace exprPlace = new RoundPlace();
         public AssertStmt() {
             base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("assert"));
