@@ -23,6 +23,7 @@ languages += [
 
 		'blocks/real/AnchorHeader.vala',
 		'blocks/real/smallTrivialStmts.vala',
+		'blocks/real/compoundStmts.vala',
 
 		'tokens.vapi',
 	)

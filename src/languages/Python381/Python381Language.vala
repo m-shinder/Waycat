@@ -13,6 +13,7 @@ class Python381Language : Waycat.Language {
     public override Waycat.Block[] get_blocks() {
         Waycat.Block[] blocks = {
             new AnchorHeader(),
+            new FuncDef(),
             new ExprStmt(),
             new DelStmt(),
             new GlobalStmt(),
