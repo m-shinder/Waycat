@@ -129,9 +129,19 @@ class Python381.NodeBuilder : GLib.Object{
 
     private SimpleStmtBase parse_small_expr(Parser.Node expr) {
         if (expr.size == 1) {
-            return new ExprStmt();
+            var block = new ExprStmt();
+            return block;
         }
-        return new AssignStmt();
+        var block = new AssignStmt();
+        return block;
+    }
+
+    private AngleBlock parse_small_expr_assign_lhs(Parser.Node tlse) {
+        return null;
+    }
+
+    private RoundBlock parse_small_expr_single(Parser.Node tlse) {
+        return null;
     }
 
     private SimpleStmtBase parse_small_import(Parser.Node import) {

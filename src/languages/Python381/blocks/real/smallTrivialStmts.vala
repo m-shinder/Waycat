@@ -17,7 +17,7 @@ namespace Python381 {
     }
 
     class AssignStmt : SimpleStmtBase {
-        public RoundPlace leftPlace = new RoundPlace();
+        public AnglePlace leftPlace = new AnglePlace();
         public RoundPlace rightPlace = new RoundPlace();
         public AssignStmt() {
             base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
