@@ -1,11 +1,13 @@
 class Python381.RoundPlace : BlockComponent {
     private RoundBlock _item = null;
+    public signal void item_changed(RoundBlock item);
     public RoundBlock item {
         get { return _item; }
         set {
             if (_item != null)
                 _item.get_parent().unparent();
             _item = value;
+            item_changed(_item);
             if (_item == null)
                 return;
             _item.get_parent().unparent();

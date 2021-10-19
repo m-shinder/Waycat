@@ -1,11 +1,13 @@
 class Python381.AnglePlace : BlockComponent {
     private AngleBlock _item = null;
+    public signal void item_changed(AngleBlock item);
     public AngleBlock item {
         get { return _item; }
         set {
             if (_item != null)
                 _item.get_parent().unparent();
             _item = value;
+            item_changed(_item);
             if (_item == null)
                 return;
             _item.get_parent().unparent();
