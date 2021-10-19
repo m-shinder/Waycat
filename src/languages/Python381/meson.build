@@ -17,6 +17,7 @@ languages += [
 
 		'blocks/bases/StatementBase.vala',
 		'blocks/bases/SimpleStmtBase.vala',
+		'blocks/bases/MultiContainerBase.vala',
 		'blocks/bases/AngleBlock.vala',
 		'blocks/bases/RoundBlock.vala',
 
