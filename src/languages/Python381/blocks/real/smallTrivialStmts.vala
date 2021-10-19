@@ -16,6 +16,24 @@ namespace Python381 {
         }
     }
 
+    class AssignStmt : SimpleStmtBase {
+        public RoundPlace leftPlace = new RoundPlace();
+        public RoundPlace rightPlace = new RoundPlace();
+        public AssignStmt() {
+            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            content.append(leftPlace);
+            content.append(new Gtk.Label("="));
+            content.append(rightPlace);
+            content.append(small); // if do it in base() it will be at start
+        }
+        public override Parser.Node get_small_node() {
+            var self = new Parser.Node(Token.SMALL_STMT);
+            self.add_child(Token.EXPR_STMT, null,0,0,0,0);
+            // TODO: actually call exprPlace
+            //self[0].add_child(TEST_LIST_STAR_EXPR);
+            return self;
+        }
+    }
     class DelStmt : SimpleStmtBase {
         private RoundPlace exprPlace = new RoundPlace();
         public DelStmt() {

@@ -17,6 +17,7 @@ class Python381Language : Waycat.Language {
             new ImportFromStmt(),
             new FuncDef(),
             new WhileLoop(),
+            new AssignStmt(),
             new ExprStmt(),
             new DelStmt(),
             new GlobalStmt(),
