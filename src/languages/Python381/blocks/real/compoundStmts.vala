@@ -18,13 +18,13 @@ namespace Python381 {
         }
     }
     class WhileLoop : MultiContainerBase {
-        private Stanza else_stnz = Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(32));
+        private Stanza else_stnz = Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(40));
         private ToggleButton else_btn = new ToggleButton("else", "else");
         private ToggleButton remove_b = new ToggleButton("remove", "remove");
         private int else_id = -1;
         public WhileLoop () {
             base("orange", {
-                Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(32)),
+                Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(40)),
             });
             stanzas[0].content.append(new Gtk.Label("while"));
             stanzas[0].content.append(new RoundPlace());

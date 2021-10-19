@@ -58,13 +58,13 @@ abstract class Python381.MultiContainerBase : StatementBase {
                 Gtk.Requisition creq, sreq;
                 stanza.content.get_preferred_size(out creq, null);
                 stanza.stmt.get_preferred_size(out sreq, null);
-                natural += sreq.height + creq.height + SEPARATOR_STEP;
+                natural += sreq.height + creq.height + SEPARATOR_STEP -8;
             }
             Gtk.Requisition req;
             stmt.get_preferred_size(out req, null);
             natural += req.height;
             footer.get_preferred_size(out req, null);
-            natural += HEADER_ADDITION + req.height + FOOTER_STEP;
+            natural += HEADER_ADDITION + req.height + FOOTER_STEP +8;
         }
         minimum = natural;
     }
@@ -141,7 +141,7 @@ abstract class Python381.MultiContainerBase : StatementBase {
         if (sreq.width == 0)
             sreq.width = get_width();
         stmt.allocate_size({
-            0, voffset-8,
+            0, voffset,
             sreq.width, sreq.height
         }, -1);
 
