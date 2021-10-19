@@ -45,6 +45,7 @@ class Python381.NodeBuilder : GLib.Object{
             i++;
             return anchor;
         }
+
         while( file[i].type != Python.Token.ENDMARKER && !file[i].indirect()) {
             var item = parse_stmt(file[i]);
             var wrapper = new Waycat.DragWrapper(item);
@@ -62,7 +63,7 @@ class Python381.NodeBuilder : GLib.Object{
     private StatementBase parse_stmt(Parser.Node stmt) requires (stmt.type == Token.STMT) {
         StatementBase result;
         if (stmt[0].type == Token.COMPOUND_STMT)
-            result = new ExprStmt(); // XXX
+            result = parse_compound(stmt[0]);
         else // SIMPLE_STMT
             result = parse_simple(stmt[0]);
         return result;
@@ -95,12 +96,46 @@ class Python381.NodeBuilder : GLib.Object{
     private SimpleStmtBase parse_small(Parser.Node stmt, bool cont) {
         SimpleStmtBase res = null;
         switch (stmt[0].type) {
-            case 0:
+            case Token.EXPR_STMT:
+                res = new ExprStmt();
+            break;
+            case Token.DEL_STMT:
+                res = new DelStmt();
+            break;
+            case Token.PASS_STMT:
+                res = new DelStmt();
+            break;
+            case Token.FLOW_STMT:
+                res = new ExprStmt(); // TODO
+            break;
+            case Token.IMPORT_STMT:
+                res = new ExprStmt(); // TODO
+            break;
+            case Token.GLOBAL_STMT:
+                res = new GlobalStmt();
+            break;
+            case Token.NONLOCAL_STMT:
+                res = new NonlocalStmt();
+            break;
+            case Token.ASSERT_STMT:
+                res = new AssertStmt();
             break;
             default:
                 res = new ExprStmt();
             break;
         }
         return res;
+    }
+
+    private StatementBase parse_compound(Parser.Node stmt) {
+        if (stmt[0].type == Token.DECORATED)
+            return parse_plain_compound(stmt[0]);
+        if (stmt[0].type == Token.ASYNC_STMT)
+            return parse_plain_compound(stmt[0]);
+        return parse_plain_compound(stmt[0]);
+    }
+
+    private MultiContainerBase parse_plain_compound(Parser.Node comp) {
+        return new WhileLoop();
     }
 }
