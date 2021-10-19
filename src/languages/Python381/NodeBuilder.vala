@@ -97,7 +97,7 @@ class Python381.NodeBuilder : GLib.Object{
         SimpleStmtBase res = null;
         switch (stmt[0].type) {
             case Token.EXPR_STMT:
-                res = new ExprStmt();
+                res = parse_small_expr(stmt[0]);
             break;
             case Token.DEL_STMT:
                 res = new DelStmt();
@@ -125,6 +125,13 @@ class Python381.NodeBuilder : GLib.Object{
             break;
         }
         return res;
+    }
+
+    private SimpleStmtBase parse_small_expr(Parser.Node expr) {
+        if (expr.size == 1) {
+            return new ExprStmt();
+        }
+        return new AssignStmt();
     }
 
     private SimpleStmtBase parse_small_import(Parser.Node import) {
