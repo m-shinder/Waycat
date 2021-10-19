@@ -12,6 +12,7 @@ languages += [
 		'blocks/components/StatementPlace.vala',
 		'blocks/components/AnglePlace.vala',
 		'blocks/components/RoundPlace.vala',
+		'blocks/components/EditableLabel.vala',
 		'blocks/components/SmallStmtCheck.vala',
 		'blocks/components/ToggleButton.vala',
 
@@ -24,6 +25,7 @@ languages += [
 		'blocks/real/AnchorHeader.vala',
 		'blocks/real/smallTrivialStmts.vala',
 		'blocks/real/compoundStmts.vala',
+		'blocks/real/angleBlocks.vala',
 
 		'tokens.vapi',
 	)

@@ -2,7 +2,7 @@ class Python381.EditableLabel : BlockComponent {
     public const int WIDTH_STEP = 8;
     private Gtk.Label label = new Gtk.Label("");
     private Gtk.Entry entry = new Gtk.Entry();
-    private string text {
+    public string text {
         get {
             return label.label;
         }
