@@ -47,6 +47,41 @@ namespace Python381 {
             return self;
         }
     }
+
+    class ImportNameStmt : SimpleStmtBase {
+        private AnglePlace dotNamesPlace = new AnglePlace();
+        public ImportNameStmt() {
+            base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            content.append(new Gtk.Label("import"));
+            content.append(dotNamesPlace);
+            content.append(small); // if do it in base() it will be at start
+        }
+        public override Parser.Node get_small_node() {
+            var self = new Parser.Node(Token.SMALL_STMT);
+            self.add_child(Token.IMPORT_STMT, null,0,0,0,0);
+            self[0].add_child(Token.IMPORT_NAME, null,0,0,0,0);
+            return self;
+        }
+    }
+
+    class ImportFromStmt : SimpleStmtBase {
+        private AnglePlace sourcePlace = new AnglePlace();
+        private AnglePlace dotNamesPlace = new AnglePlace();
+        public ImportFromStmt() {
+            base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            content.append(new Gtk.Label("from"));
+            content.append(sourcePlace);
+            content.append(new Gtk.Label("import"));
+            content.append(dotNamesPlace);
+            content.append(small);
+        }
+        public override Parser.Node get_small_node() {
+            var self = new Parser.Node(Token.SMALL_STMT);
+            self.add_child(Token.IMPORT_STMT, null,0,0,0,0);
+            self[0].add_child(Token.IMPORT_FROM, null,0,0,0,0);
+            return self;
+        }
+    }
     // TODO: flow and import statements
     class GlobalStmt : SimpleStmtBase {
         private RoundPlace exprPlace = new RoundPlace();
