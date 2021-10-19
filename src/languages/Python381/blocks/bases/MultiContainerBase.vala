@@ -3,11 +3,13 @@ abstract class Python381.MultiContainerBase : StatementBase {
     public const int HEADER_ADDITION = 8; // HEADER_STEP - SEPARATOR_STEP
     public const int SEPARATOR_STEP = 8;
     public const int FOOTER_STEP = 8;
-    public Gtk.Box footer;
+    public Gtk.Box footer = null;
     public Gee.ArrayList<Stanza?> stanzas;
+    public Gdk.RGBA color;
 
-    protected MultiContainerBase () {
-        stanzas = new Gee.ArrayList<Stanza?>();
+    protected MultiContainerBase(string c, owned Stanza?[] items) {
+        stanzas = new Gee.ArrayList<Stanza?>.wrap(items);
+        color.parse(c);
     }
 
     public override void measure(Gtk.Orientation orientation,
@@ -103,9 +105,21 @@ abstract class Python381.MultiContainerBase : StatementBase {
         cr.line_to(1, voffset + creq.height);
         cr.close_path();
 
+        cr.set_source_rgba (1, 1, 1, 1);
+        cr.set_line_width(1);
+        cr.stroke_preserve();
+        cr.set_source_rgba (color.red, color.green, color.blue, color.alpha);
+        cr.fill();
+
         footer.allocate_size({
             CONTENT_OFFSET, voffset + (int)FOOTER_STEP/2,
             creq.width, creq.height
+        }, -1);
+
+        stmt.get_preferred_size(out sreq, null);
+        stmt.allocate_size({
+            0, h,
+            sreq.width, sreq.height
         }, -1);
 
         base.snapshot(snapshot);
@@ -117,7 +131,7 @@ abstract class Python381.MultiContainerBase : StatementBase {
             creq = {0,0};
         } else {
             stanzas[id].content.get_preferred_size(out creq, null);
-            stanzas[id].content.get_preferred_size(out sreq, null);
+            stanzas[id].stmt.get_preferred_size(out sreq, null);
         }
         creq.height += SEPARATOR_STEP;
         if (id == 0)
