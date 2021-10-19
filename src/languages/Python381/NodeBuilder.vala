@@ -109,7 +109,7 @@ class Python381.NodeBuilder : GLib.Object{
                 res = new ExprStmt(); // TODO
             break;
             case Token.IMPORT_STMT:
-                res = new ExprStmt(); // TODO
+                res = new ImportNameStmt();
             break;
             case Token.GLOBAL_STMT:
                 res = new GlobalStmt();
