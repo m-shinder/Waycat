@@ -10,8 +10,6 @@ abstract class Python381.SimpleStmtBase : StatementBase {
         this.color.parse(color);
         this.content = content;
         this.content.set_parent(this);
-
-        stmt.set_parent(this);
     }
 
     public override void dispose() {
