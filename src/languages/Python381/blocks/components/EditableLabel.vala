@@ -27,18 +27,13 @@ class Python381.EditableLabel : BlockComponent {
     public override bool on_workbench() {
         var click = new Gtk.GestureClick();
         entry.text = text;
-        bool activated = false;
-        // XXX: if connect entry signal here? ExprConsts will go mad
+        entry.changed.connect((e) => {
+            text = entry.get_text();
+        });
+
         click.released.connect((gest, n_press, x, y) => {
             if ( this.contains(x, y) == false )
                 return;
-
-            if (! activated) {
-                activated = true;
-                entry.changed.connect((e) => {
-                    text = entry.get_text();
-                });
-            }
 
             if (entry.visible == true) {
                 entry.visible = false;
