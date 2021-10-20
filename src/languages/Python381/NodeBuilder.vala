@@ -127,17 +127,38 @@ class Python381.NodeBuilder : GLib.Object{
         return res;
     }
 
-    private SimpleStmtBase parse_small_expr(Parser.Node expr) {
-        if (expr.size == 1) {
+    private SimpleStmtBase parse_small_expr(Parser.Node stmtexpr) {
+        if (stmtexpr.size == 1) {
             var block = new ExprStmt();
             return block;
         }
         var block = new AssignStmt();
+        var lhs = parse_small_expr_assign_lhs(stmtexpr[0]);
+        var w = new Waycat.DragWrapper(lhs);
+        lhs.on_workbench();
+        block.leftPlace.item = lhs;
         return block;
     }
 
     private AngleBlock parse_small_expr_assign_lhs(Parser.Node tlse) {
+        if (tlse.size == 1)
+            return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
+        return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
         return null;
+    }
+    private NameConst get_single_nameConst_from_tlse_child(Parser.Node n) {
+        unowned Parser.Node expr;
+        if (n.type == Token.TEST)
+            expr = n[0][0][0][0][0];
+        else
+            expr = n[1];
+        unowned Parser.Node name = get_name_from_expr(expr);
+        var self = new NameConst();
+        self.lbl.text = name.n_str;
+        return self;
+    }
+    private unowned Parser.Node get_name_from_expr(Parser.Node expr) {
+        return expr[0][0][0][0][0][0][0][0][0][0];
     }
 
     private RoundBlock parse_small_expr_single(Parser.Node tlse) {
