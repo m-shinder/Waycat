@@ -138,7 +138,7 @@ class Python381.NodeBuilder : GLib.Object{
         }
         var block = new AssignStmt();
         var lhs = parse_small_expr_assign_lhs(stmtexpr[0]);
-        var item = parse_small_expr_tlse(stmtexpr[0]);
+        var item = parse_small_expr_tlse(stmtexpr[2]);
         var w = new Waycat.DragWrapper(lhs);
         var w2 = new Waycat.DragWrapper(item);
         lhs.on_workbench();
@@ -264,12 +264,108 @@ class Python381.NodeBuilder : GLib.Object{
     private RoundBlock parse_token_atomExpr(Parser.Node atomExpr) {
         if (atomExpr.size == 1)
             return parse_token_atom(atomExpr[0]);
-        return new NameAdapter();
+
+        int i = atomExpr.size-1;
+        bool await = (atomExpr[0].type != Token.ATOM);
+        var self = parse_token_trailer(atomExpr[i], await);
+        RoundPlace cur;
+        if (await)
+            cur = (self as AwaitCallExpr).function;
+        else
+            cur = (self as CallExpr).function;
+
+        for (i = i-1; atomExpr[i].type != Token.ATOM; i--) {
+            var t = parse_token_trailer(atomExpr[i], false);
+            t.on_workbench();
+            var w = new Waycat.DragWrapper(t);
+            cur.item = t;
+            switch (atomExpr[i][0].n_str) {
+                case "(":
+                    cur = (self as CallExpr).function;
+                break;
+                case "[":
+                break;
+                case ".":
+                    cur = (t as DotName).expr;
+                break;
+            }
+            print("NodeBuilderLoop1  ");
+            print("%s\n", atomExpr[i][0].n_str);
+        }
+        var fun = parse_token_atom(atomExpr[i]);
+        var w = new Waycat.DragWrapper(fun);
+        fun.on_workbench();
+        cur.item = fun;
+        return self;
     }
 
+    private RoundBlock parse_token_trailer(Parser.Node trail, bool await) {
+        RoundBlock self = null;
+        RoundBlock[] intr = null;
+        Waycat.DragWrapper[] wraps = null;
+        RoundPlace argplace = null;
+        switch (trail[0].n_str) {
+            case "(":
+                if (trail.size > 2) {
+                    unowned Parser.Node arglist = trail[1];
+                    int len = arglist.size;
+                    if (len % 2 == 0) // ended with ',' so even
+                        len--;
+                    len = (len+1)/2;
+                    intr = new RoundBlock[len];
+                    wraps = new Waycat.DragWrapper[len];
+                    for (int i=0; i < len; i++) {
+                        intr[i] = parse_token_argument(arglist[i*2]);
+                        intr[i].on_workbench();
+                        wraps[i] = new Waycat.DragWrapper(intr[i]);
+                    }
+                }
+                if (await) {
+                    var s = new AwaitCallExpr();
+                    argplace = (RoundPlace)s.function.get_next_sibling().get_next_sibling();
+                    self = s;
+                } else {
+                    var s = new CallExpr();
+                    argplace = (RoundPlace)s.function.get_next_sibling().get_next_sibling();
+                    self = s;
+                }
+                for (int i=0; i < intr.length; i++) {
+                    argplace.item = intr[i];
+                    argplace = (RoundPlace)argplace.get_next_sibling().get_next_sibling();
+                    print("hhh\n");
+                }
+            break;
+            case "[":
+            break;
+            case ".":
+                var n = new NameConst.with_name(trail[1].n_str);
+                n.on_workbench();
+                self = new DotName.with_nonwrapped_name(n);
+            break;
+        }
+        print("%s\n", trail[0].n_str);
+        return self;
+    }
+
+    private RoundBlock parse_token_argument(Parser.Node arg) {
+        if (arg[0].type == Token.TEST)
+            return parse_token_test(arg[0]);
+        return parse_token_test(arg[1]);
+    }
     private RoundBlock parse_token_atom(Parser.Node atom) {
-        if (atom.size == 1)
+        if (atom[0].n_str.length == 1)
             return new NameAdapter();
+        switch (atom[0].type) {
+            case Token.NAME:
+                var a = new NameAdapter();
+                var n = new NameConst.with_name(atom[0].n_str);
+                print("atom name %s\n", atom[0].n_str);
+                n.on_workbench();
+                var w = new Waycat.DragWrapper(n);
+                a.name.item = n;
+                return a;
+            break;
+        }
         return new NameAdapter();
     }
 

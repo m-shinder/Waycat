@@ -6,6 +6,30 @@ namespace Python381 {
             base("red", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0));
             content.append(name);
         }
+        public NameAdapter.with_nonwrapped_name (AngleBlock n) {
+            this();
+            var w = new Waycat.DragWrapper(n);
+            name.item = n;
+        }
+        public override Parser.Node get_node() {
+            return null;
+        }
+    }
+
+    class DotName : RoundBlock {
+        public RoundPlace expr = new RoundPlace();
+        public AnglePlace name = new AnglePlace();
+        public DotName () {
+            base("green", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0));
+            content.append(expr);
+            content.append(new Gtk.Label("."));
+            content.append(name);
+        }
+        public DotName.with_nonwrapped_name (AngleBlock n) {
+            this();
+            var w = new Waycat.DragWrapper(n);
+            name.item = n;
+        }
         public override Parser.Node get_node() {
             return null;
         }
