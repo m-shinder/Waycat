@@ -1,5 +1,25 @@
 using Python;
 namespace Python381 {
+    class ExprConst : RoundBlock {
+        public EditableLabel lbl = new EditableLabel("value");
+        public ExprConst () {
+            base("blue", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
+            content.append(lbl);
+        }
+        public ExprConst.with_name(string s) {
+            this();
+            lbl.text = s;
+        }
+        public override Parser.Node get_node() {
+            Parser.Node self;
+            if (lbl.text[0] == '\'' || lbl.text[0] == '"')
+                self = new Parser.Node(Token.STRING);
+            else
+                self = new Parser.Node(Token.NUMBER);
+            self.n_str = lbl.text;
+            return self;
+        }
+    }
     class NameAdapter : RoundBlock {
         public AnglePlace name = new AnglePlace();
         public NameAdapter () {
