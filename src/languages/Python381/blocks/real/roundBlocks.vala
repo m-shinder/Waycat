@@ -1,7 +1,7 @@
 using Python;
 namespace Python381 {
     class ExprConst : RoundBlock {
-        public EditableLabel lbl = new EditableLabel("value");
+        public EditableLabel lbl = new EditableLabel("valu");
         public ExprConst () {
             base("blue", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
             content.append(lbl);
