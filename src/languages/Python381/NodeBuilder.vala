@@ -289,8 +289,6 @@ class Python381.NodeBuilder : GLib.Object{
                     cur = (t as DotName).expr;
                 break;
             }
-            print("NodeBuilderLoop1  ");
-            print("%s\n", atomExpr[i][0].n_str);
         }
         var fun = parse_token_atom(atomExpr[i]);
         var w = new Waycat.DragWrapper(fun);
@@ -332,7 +330,6 @@ class Python381.NodeBuilder : GLib.Object{
                 for (int i=0; i < intr.length; i++) {
                     argplace.item = intr[i];
                     argplace = (RoundPlace)argplace.get_next_sibling().get_next_sibling();
-                    print("hhh\n");
                 }
             break;
             case "[":
@@ -343,7 +340,6 @@ class Python381.NodeBuilder : GLib.Object{
                 self = new DotName.with_nonwrapped_name(n);
             break;
         }
-        print("%s\n", trail[0].n_str);
         return self;
     }
 
@@ -353,13 +349,29 @@ class Python381.NodeBuilder : GLib.Object{
         return parse_token_test(arg[1]);
     }
     private RoundBlock parse_token_atom(Parser.Node atom) {
-        if (atom[0].n_str.length == 1)
-            return new NameAdapter();
         switch (atom[0].type) {
+            case Token.LPAR:
+                if (atom[1].type == Token.RPAR) return null;
+                if (atom[1][0].type == Token.YIELD_EXPR)
+                    return new NameAdapter();
+                else
+                    return parse_token_testlist_comp(atom[1]);
+            break;
+            case Token.LBRACE:
+                if (atom[1].type == Token.RBRACE) return null;
+                return parse_token_testlist_comp(atom[1][0]);
+            break;
             case Token.NAME:
                 var a = new NameAdapter();
                 var n = new NameConst.with_name(atom[0].n_str);
-                print("atom name %s\n", atom[0].n_str);
+                n.on_workbench();
+                var w = new Waycat.DragWrapper(n);
+                a.name.item = n;
+                return a;
+            break;
+            case Token.NUMBER:
+                var a = new NameAdapter();
+                var n = new NameConst.with_name(atom[0].n_str);
                 n.on_workbench();
                 var w = new Waycat.DragWrapper(n);
                 a.name.item = n;
@@ -369,6 +381,35 @@ class Python381.NodeBuilder : GLib.Object{
         return new NameAdapter();
     }
 
+    private RoundBlock parse_token_testlist_comp(Parser.Node tlc) {
+        if (tlc.size == 1)
+            return parse_token_testlist_comp_single(tlc[0]);
+        if (tlc[1].type == Token.COMP_FOR)
+            return null;
+        var self = new SeparatedExpr(",");
+        var place = self.content.get_first_child() as RoundPlace;
+        for (int i=0; i < tlc.size; i+=2) {
+            var t = parse_token_testlist_comp_single(tlc[i]);
+            var w = new Waycat.DragWrapper(t);
+            t.on_workbench();
+            place.item = t;
+            place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        }
+        return self;
+    }
+
+    private RoundBlock parse_token_testlist_comp_single(Parser.Node tlcs) {
+        if (tlcs.type == Token.NAMEDEXPR_TEST)
+            return parse_token_namedexpr_test(tlcs);
+        else
+            return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_namedexpr_test(Parser.Node walrus) {
+        if (walrus.size == 1)
+            return parse_token_test(walrus[0]);
+        return parse_token_test(walrus[0]);
+    }
     private SimpleStmtBase parse_small_import(Parser.Node import) {
         if (import[0].type == Token.IMPORT_NAME) {
             var block = new ImportNameStmt();

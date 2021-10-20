@@ -1,6 +1,6 @@
 class Python381.RoundBlock : Block {
     protected Gdk.RGBA color;
-    protected Gtk.Box content = null;
+    public Gtk.Box content = null;
     public const int HEIGHT_STEP = 4;
 
 
