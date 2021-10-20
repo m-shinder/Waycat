@@ -24,6 +24,8 @@ class Python381Language : Waycat.Language {
             new NonlocalStmt(),
             new AssertStmt(),
             new NameConst(),
+            new CallExpr(),
+            new AwaitCallExpr(),
             new SeparatedNames(","),
             new NameAdapter(),
             new SeparatedExpr(","),

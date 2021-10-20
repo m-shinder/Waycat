@@ -68,4 +68,86 @@ namespace Python381 {
             return null;
         }
     }
+
+    class CallExpr : RoundBlock {
+        public RoundPlace function = new RoundPlace();
+        public CallExpr () {
+            base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
+            var a = new RoundPlace();
+            a.item_changed.connect(changed_cb);
+            content.append(function);
+            content.append(new Gtk.Label("("));
+            content.append(a);
+            content.append(new Gtk.Label(")"));
+        }
+
+        public override bool on_workbench() {
+            return base.on_workbench();
+        }
+
+        public void changed_cb(RoundBlock? item) {
+            if (item != null) {
+                var p = new RoundPlace();
+                var l = content.get_last_child().get_prev_sibling() as RoundPlace;
+                if (l.item == null)
+                    return;
+                p.on_workbench();
+                p.item_changed.connect(changed_cb);
+                content.insert_child_after(p, l);
+                content.insert_child_after(new Gtk.Label(","), l);
+            } else {
+                RoundPlace place = content.get_first_child()
+                        .get_next_sibling().get_next_sibling() as RoundPlace;
+                while (place.item != null) {
+                    place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+                }
+                content.remove(place.get_next_sibling());
+                content.remove(place);
+            }
+        }
+        public override Parser.Node get_node() {
+            return null;
+        }
+    }
+
+    class AwaitCallExpr : RoundBlock {
+        public RoundPlace function = new RoundPlace();
+        public AwaitCallExpr () {
+            base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
+            var a = new RoundPlace();
+            a.item_changed.connect(changed_cb);
+            content.append(new Gtk.Label("await"));
+            content.append(function);
+            content.append(new Gtk.Label("("));
+            content.append(a);
+            content.append(new Gtk.Label(")"));
+        }
+
+        public override bool on_workbench() {
+            return base.on_workbench();
+        }
+
+        public void changed_cb(RoundBlock? item) {
+            if (item != null) {
+                var p = new RoundPlace();
+                var l = content.get_last_child().get_prev_sibling() as RoundPlace;
+                if (l.item == null)
+                    return;
+                p.on_workbench();
+                p.item_changed.connect(changed_cb);
+                content.insert_child_after(p, l);
+                content.insert_child_after(new Gtk.Label(","), l);
+            } else {
+                RoundPlace place = function.get_next_sibling().get_next_sibling() as RoundPlace;
+                while (place.item != null) {
+                    place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+                }
+                content.remove(place.get_next_sibling());
+                content.remove(place);
+            }
+        }
+        public override Parser.Node get_node() {
+            return null;
+        }
+    }
 }
