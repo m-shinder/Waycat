@@ -8,6 +8,7 @@ languages += [
 		'blocks/components/bases/CheckBase.vala',
 		'blocks/components/bases/LabelButtonBase.vala',
 		'blocks/components/bases/Stanza.vala',
+		'blocks/components/bases/ClickLabel.vala',
 
 		'blocks/components/StatementPlace.vala',
 		'blocks/components/AnglePlace.vala',

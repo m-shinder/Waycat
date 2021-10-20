@@ -12,6 +12,8 @@ namespace Python381 {
     }
 
     class SeparatedExpr : RoundBlock {
+        public static string[] seps = {",", "+"};
+        public Gtk.Popover popover = new Gtk.Popover();
         public string separator;
         public SeparatedExpr (string s) {
             base("green", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
@@ -19,9 +21,33 @@ namespace Python381 {
             var f = new RoundPlace();
             f.item_changed.connect(changed_cb);
             content.append(f);
-            //content.append(new Gtk.Label(separator));
 
+            popover.set_parent(this);
+            var popbox = new Gtk.Box(Gtk.Orientation.VERTICAL, 3);
+            foreach (string str in seps) {
+                popbox.append(new ClickLabel(str, click_cb));
+            }
+            popover.set_child(popbox);
         }
+
+        public override bool on_workbench() {
+            var click = new Gtk.GestureClick();
+            click.released.connect((gest, n_press, x, y) => {
+                if ( this.contains(x, y) == false )
+                    return;
+                popover.popup();
+            });
+            this.add_controller(click);
+            return base.on_workbench();
+        }
+
+        public void click_cb(string s) {
+            var w = content.get_first_child();
+            while ( (w = w.get_next_sibling() ) != null)
+                if (w is Gtk.Label)
+                    (w as Gtk.Label).label = s;
+        }
+
         public void changed_cb(RoundBlock? item) {
             if (item != null) {
                 var p = new RoundPlace();
