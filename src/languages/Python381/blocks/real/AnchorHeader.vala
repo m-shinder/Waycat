@@ -10,7 +10,7 @@ class Python381.AnchorHeader : Block {
     public AnchorHeader() {
         base();
         stmt.set_parent(this);
-        this.color.parse("orange");
+        this.color.parse("darkOrange");
     }
 
     public override bool break_free() { return true; } // anchors always free

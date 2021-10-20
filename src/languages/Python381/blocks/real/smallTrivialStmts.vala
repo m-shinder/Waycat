@@ -3,7 +3,7 @@ namespace Python381 {
     class ExprStmt : SimpleStmtBase {
         public RoundPlace exprPlace = new RoundPlace();
         public ExprStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(exprPlace);
             content.append(small); // if do it in base() it will be at start
         }
@@ -20,7 +20,7 @@ namespace Python381 {
         public AnglePlace leftPlace = new AnglePlace();
         public RoundPlace rightPlace = new RoundPlace();
         public AssignStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(leftPlace);
             content.append(new Gtk.Label("="));
             content.append(rightPlace);
@@ -37,7 +37,7 @@ namespace Python381 {
     class DelStmt : SimpleStmtBase {
         public RoundPlace exprPlace = new RoundPlace();
         public DelStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("delete"));
             content.append(exprPlace);
             content.append(small); // if do it in base() it will be at start
@@ -54,7 +54,7 @@ namespace Python381 {
 
     class PassStmt : SimpleStmtBase {
         public PassStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("pass"));
             content.append(small); // if do it in base() it will be at start
         }
@@ -104,7 +104,7 @@ namespace Python381 {
     class GlobalStmt : SimpleStmtBase {
         public RoundPlace exprPlace = new RoundPlace();
         public GlobalStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("global"));
             content.append(exprPlace);
             content.append(small); // if do it in base() it will be at start
@@ -122,7 +122,7 @@ namespace Python381 {
     class NonlocalStmt : SimpleStmtBase {
         public RoundPlace exprPlace = new RoundPlace();
         public NonlocalStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("nonlocal"));
             content.append(exprPlace);
             content.append(small); // if do it in base() it will be at start
@@ -140,7 +140,7 @@ namespace Python381 {
     class AssertStmt : SimpleStmtBase {
         public RoundPlace exprPlace = new RoundPlace();
         public AssertStmt() {
-            base("orange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
+            base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("assert"));
             content.append(exprPlace);
             content.append(small); // if do it in base() it will be at start

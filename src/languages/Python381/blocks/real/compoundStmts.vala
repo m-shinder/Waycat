@@ -2,7 +2,7 @@ using Python;
 namespace Python381 {
     class FuncDef : MultiContainerBase {
         public FuncDef () {
-            base("orange", {
+            base("darkOrange", {
                 Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(32)),
             });
             stanzas[0].content.append(new Gtk.Label("function"));
@@ -23,7 +23,7 @@ namespace Python381 {
         private ToggleButton remove_b = new ToggleButton("remove", "remove");
         private int else_id = -1;
         public WhileLoop () {
-            base("orange", {
+            base("darkOrange", {
                 Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(40)),
             });
             stanzas[0].content.append(new Gtk.Label("while"));
