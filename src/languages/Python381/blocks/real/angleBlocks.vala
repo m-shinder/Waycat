@@ -6,6 +6,10 @@ namespace Python381 {
             base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
             content.append(lbl);
         }
+        public NameConst.with_name(string s) {
+            this();
+            lbl.text = s;
+        }
         public override Parser.Node get_node() {
             string[] names = lbl.text.split_set(".");
             if (names.length < 2) {
