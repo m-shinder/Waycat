@@ -26,6 +26,7 @@ languages += [
 		'blocks/real/smallTrivialStmts.vala',
 		'blocks/real/compoundStmts.vala',
 		'blocks/real/angleBlocks.vala',
+		'blocks/real/roundBlocks.vala',
 
 		'tokens.vapi',
 	)

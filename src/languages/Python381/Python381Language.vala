@@ -24,6 +24,9 @@ class Python381Language : Waycat.Language {
             new NonlocalStmt(),
             new AssertStmt(),
             new NameConst(),
+            new SeparatedNames(","),
+            new NameAdapter(),
+            new SeparatedExpr(","),
         };
         Block.reset_count();
         return blocks;
