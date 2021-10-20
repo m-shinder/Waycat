@@ -371,11 +371,7 @@ class Python381.NodeBuilder : GLib.Object{
             break;
             case Token.NUMBER:
             case Token.STRING:
-                var n = new ExprConst.with_name(atom[0].n_str);
-                n.on_workbench();
-                var w = new Waycat.DragWrapper(n);
-                print("stratom %s\n", atom[0].n_str);
-                return n;
+                return new ExprConst.with_name(atom[0].n_str);
             break;
         }
         return new NameAdapter();
