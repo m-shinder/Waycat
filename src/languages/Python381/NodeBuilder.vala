@@ -130,13 +130,21 @@ class Python381.NodeBuilder : GLib.Object{
     private SimpleStmtBase parse_small_expr(Parser.Node stmtexpr) {
         if (stmtexpr.size == 1) {
             var block = new ExprStmt();
+            var item = parse_small_expr_tlse(stmtexpr[0]);
+            var w = new Waycat.DragWrapper(item);
+            item.on_workbench();
+            block.exprPlace.item = item;
             return block;
         }
         var block = new AssignStmt();
         var lhs = parse_small_expr_assign_lhs(stmtexpr[0]);
+        var item = parse_small_expr_tlse(stmtexpr[0]);
         var w = new Waycat.DragWrapper(lhs);
+        var w2 = new Waycat.DragWrapper(item);
         lhs.on_workbench();
+        item.on_workbench();
         block.leftPlace.item = lhs;
+        block.rightPlace.item = item;
         return block;
     }
 
@@ -146,6 +154,7 @@ class Python381.NodeBuilder : GLib.Object{
         return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
         return null;
     }
+
     private NameConst get_single_nameConst_from_tlse_child(Parser.Node n) {
         unowned Parser.Node expr;
         if (n.type == Token.TEST)
@@ -161,8 +170,107 @@ class Python381.NodeBuilder : GLib.Object{
         return expr[0][0][0][0][0][0][0][0][0][0];
     }
 
-    private RoundBlock parse_small_expr_single(Parser.Node tlse) {
-        return null;
+    private RoundBlock parse_small_expr_tlse(Parser.Node tlse) {
+        if (tlse.size == 1) {
+            if (tlse[0].type == Token.TEST)
+                return parse_token_test(tlse[0]);
+            else
+                return parse_token_test(tlse[0]);
+        }
+        RoundBlock self = null;
+        return self;
+    }
+
+    private RoundBlock parse_token_test(Parser.Node test) {
+        if (test[0].type == Token.LAMBDEF)
+            return new NameAdapter();
+        if (test.size > 1)
+            return new NameAdapter();
+        return parse_token_orTest(test[0]);
+    }
+
+    private RoundBlock parse_token_orTest(Parser.Node ortest) {
+        if (ortest.size == 1)
+            return parse_token_andTest(ortest[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_andTest(Parser.Node andtest) {
+        if (andtest.size == 1)
+            return parse_token_notTest(andtest[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_notTest(Parser.Node nottest) {
+        if (nottest.size == 1)
+            return parse_token_comparasion(nottest[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_comparasion(Parser.Node comp) {
+        if (comp.size == 1)
+            return parse_token_expr(comp[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_expr(Parser.Node expr) {
+        if (expr.size == 1)
+            return parse_token_xorExpr(expr[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_xorExpr(Parser.Node xor) {
+        if (xor.size == 1)
+            return parse_token_andExpr(xor[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_andExpr(Parser.Node and) {
+        if (and.size == 1)
+            return parse_token_shiftExpr(and[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_shiftExpr(Parser.Node shift) {
+        if (shift.size == 1)
+            return parse_token_arithExpr(shift[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_arithExpr(Parser.Node arith) {
+        if (arith.size == 1)
+            return parse_token_term(arith[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_term(Parser.Node term) {
+        if (term.size == 1)
+            return parse_token_factor(term[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_factor(Parser.Node factor) {
+        if (factor.size == 1)
+            return parse_token_power(factor[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_power(Parser.Node power) {
+        if (power.size == 1)
+            return parse_token_atomExpr(power[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_atomExpr(Parser.Node atomExpr) {
+        if (atomExpr.size == 1)
+            return parse_token_atom(atomExpr[0]);
+        return new NameAdapter();
+    }
+
+    private RoundBlock parse_token_atom(Parser.Node atom) {
+        if (atom.size == 1)
+            return new NameAdapter();
+        return new NameAdapter();
     }
 
     private SimpleStmtBase parse_small_import(Parser.Node import) {
