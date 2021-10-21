@@ -488,6 +488,18 @@ class Python381.NodeBuilder : GLib.Object{
     private StatementBase parse_token_suite(Parser.Node suite) {
         if (suite.size == 1)
             return parse_token_simple_stmt(suite[0]);
-        return new AssignStmt();
+        StatementBase self = parse_stmt(suite[2]);
+        StatementPlace place = self.stmt;
+        for(int i = 3; i < suite.size - 1; i++) {
+            var item = parse_stmt(suite[i]);
+            var wrapper = new Waycat.DragWrapper(item);
+            item.on_workbench();
+            place.item = item;
+            while (place.item != null)
+                place = place.item.stmt;
+            while(suite[i].type == Python.Token.NEWLINE)
+                i++;
+        }
+        return self;
     }
 }
