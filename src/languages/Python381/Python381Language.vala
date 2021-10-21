@@ -44,8 +44,15 @@ class Python381Language : Waycat.Language {
         if (anchor == null) {
             anchor = (AnchorHeader)block.get_ancestor(typeof(AnchorHeader));
             if (anchor != null) {
-                update_remove(anchor);
+                Gtk.TextIter start, end;
+                buffer.get_iter_at_mark(out start, anchor.start);
+                buffer.get_iter_at_mark(out end, anchor.end);
+                buffer.@delete(ref start, ref end);
+
+                buffer.delete_mark(anchor.end);
+                anchor.end = null;
                 block.break_free();
+                print("requesting to refresh anchor\n");
                 update_insert(anchor);
             } else {
                 block.break_free();
@@ -55,7 +62,9 @@ class Python381Language : Waycat.Language {
             buffer.get_iter_at_mark(out start, anchor.start);
             buffer.get_iter_at_mark(out end, anchor.end);
             buffer.@delete(ref start, ref end);
-            buffer.move_mark(anchor.end, start);
+            buffer.delete_mark(anchor.start);
+            buffer.delete_mark(anchor.end);
+            anchor.start = anchor.end = null;
             return true;
         }
         return false;
@@ -64,26 +73,61 @@ class Python381Language : Waycat.Language {
     public override bool update_insert(Waycat.Block block) {
         var anchor = block as AnchorHeader;
         if (anchor == null) {
-            anchor = (AnchorHeader)
-                        block.get_ancestor(typeof(AnchorHeader));
-            if (anchor != null)
-                update_remove(anchor);
-        }
+            anchor = (AnchorHeader)block.get_ancestor(typeof(AnchorHeader));
+            if (anchor != null) {
+                print("here block?\n");
+                Gtk.TextIter start, end;
+                buffer.get_iter_at_mark(out start, anchor.start);
+                buffer.get_iter_at_mark(out end, anchor.end);
+                buffer.@delete(ref start, ref end);
 
-        if (anchor != null) {
-            Gtk.TextIter end;
-            buffer.get_end_iter(out end);
+                buffer.delete_mark(anchor.end);
+                anchor.end = null;
+                print("refresh anchor for block\n");
+                update_insert(anchor);
+            } else {
+                print("insert block with no anchor?\n");
+            }
+        } else {
+            Gtk.TextIter start, end;
             if (anchor.start == null) {
+                // if start == null, then anchor is "brand new"
                 anchor.start = new Gtk.TextMark(null, true);
-                buffer.add_mark(anchor.start, end);
-            }
-            if (anchor.end == null) {
                 anchor.end = new Gtk.TextMark(null, false);
+                buffer.get_end_iter(out end);
+                buffer.add_mark(anchor.start, end);
                 buffer.add_mark(anchor.end, end);
+                buffer.insert(ref end, anchor.serialize(), -1);
+
+                buffer.get_iter_at_mark(out end, anchor.end);
+                buffer.delete_mark(anchor.end);
+                anchor.end = new Gtk.TextMark(null, true);
+                buffer.add_mark(anchor.end, end);
+            } else {
+                // refresh anchor, keeping it position
+                if (anchor.end == null) {
+                    // polite request to refresh, anchor text shoul be removed
+                    anchor.end = new Gtk.TextMark(null, false);
+                    buffer.get_iter_at_mark(out end, anchor.start);
+                    buffer.add_mark(anchor.end, end);
+                    buffer.insert(ref end, anchor.serialize(), -1);
+
+                    buffer.get_iter_at_mark(out end, anchor.end);
+                    buffer.delete_mark(anchor.end);
+                    anchor.end = new Gtk.TextMark(null, true);
+                    buffer.add_mark(anchor.end, end);
+                } else {
+                    // invalid request for refresh
+                    print("TSNH: invalid request to refresh anchor\n");
+                }
             }
-            buffer.insert(ref end, "", 0);
+           // buffer.insert(ref end, anchor.serialize(), -1);
+           // buffer.get_iter_at_mark(out end, anchor.end);
+           // anchor.end = new Gtk.TextMark(null, true);
+           // buffer.add_mark(anchor.end, end);
             return true;
         }
+
         return false;
     }
 
@@ -115,6 +159,7 @@ class Python381Language : Waycat.Language {
                 buffer.get_text(start, end, true).data,
                 Python.Token.FILE_INPUT
         );
+        buffer.set_text("");
         Waycat.Block[] blocks = BlockBuilder.instance.parse_node(fileNode);
         for (int i =0; i < blocks.length; i++)
             update_insert(blocks[i]);
