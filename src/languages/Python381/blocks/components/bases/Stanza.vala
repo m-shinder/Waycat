@@ -14,4 +14,13 @@ struct Python381.Stanza {
         content.set_parent(w);
         stmt.set_parent(w);
     }
+    public void on_workbench() {
+        var list = content.observe_children();
+        for (uint i=0; i < list.get_n_items(); i++) {
+            var comp = list.get_item(i) as BlockComponent;
+            if (comp != null)
+                comp.on_workbench();
+        }
+        stmt.on_workbench();
+    }
 }
