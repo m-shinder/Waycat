@@ -382,7 +382,7 @@ class Python381.BlockBuilder : GLib.Object {
             return parse_token_testlist_comp_single(tlc[0]);
         if (tlc[1].type == Token.COMP_FOR)
             return null;
-        var self = new SeparatedExpr(",");
+        var self = new SeparatedExpr(", ");
         var place = self.content.get_first_child() as RoundPlace;
         for (int i=0; i < tlc.size; i+=2) {
             var t = parse_token_testlist_comp_single(tlc[i]);
