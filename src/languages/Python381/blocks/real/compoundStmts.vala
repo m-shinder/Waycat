@@ -95,6 +95,11 @@ namespace Python381 {
             footer.append(else_btn);
             footer.set_parent(this);
         }
+        public WhileLoop.with_else(StatementBase els) {
+            this();
+            else_stnz.stmt.item = els;
+            else_cb();
+        }
 
         public override Parser.Node get_node() {
             return null;
