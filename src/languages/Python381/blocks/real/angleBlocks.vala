@@ -24,6 +24,9 @@ namespace Python381 {
             }
             return null;
         }
+        public override string serialize() {
+            return lbl.serialize();
+        }
     }
 
     class SeparatedNames : AngleBlock {
@@ -36,6 +39,9 @@ namespace Python381 {
             content.append(f);
             //content.append(new Gtk.Label(separator));
 
+        }
+        public override string serialize() {
+            return "SEPaRATED";
         }
         public void changed_cb(AngleBlock? item) {
             if (item != null) {

@@ -19,6 +19,9 @@ namespace Python381 {
             self.n_str = lbl.text;
             return self;
         }
+        public override string serialize() {
+            return lbl.serialize();
+        }
     }
     class NameAdapter : RoundBlock {
         public AnglePlace name = new AnglePlace();
@@ -33,6 +36,9 @@ namespace Python381 {
         }
         public override Parser.Node get_node() {
             return null;
+        }
+        public override string serialize() {
+            return name.serialize();
         }
     }
 
@@ -49,6 +55,9 @@ namespace Python381 {
             this();
             var w = new Waycat.DragWrapper(n);
             name.item = n;
+        }
+        public override string serialize() {
+            return expr.serialize() + "." + name.serialize();
         }
         public override Parser.Node get_node() {
             return null;
@@ -74,6 +83,9 @@ namespace Python381 {
             popover.set_child(popbox);
         }
 
+        public override string serialize() {
+            return "SEPARATED";
+        }
         public override bool on_workbench() {
             var click = new Gtk.GestureClick();
             click.released.connect((gest, n_press, x, y) => {
@@ -127,6 +139,9 @@ namespace Python381 {
             content.append(a);
             content.append(new Gtk.Label(")"));
         }
+        public override string serialize() {
+            return function.serialize() + "(ARGH)";
+        }
 
         public override bool on_workbench() {
             return base.on_workbench();
@@ -172,6 +187,9 @@ namespace Python381 {
 
         public override bool on_workbench() {
             return base.on_workbench();
+        }
+        public override string serialize() {
+            return "await " + function.serialize() + "(ARGH)";
         }
 
         public void changed_cb(RoundBlock? item) {

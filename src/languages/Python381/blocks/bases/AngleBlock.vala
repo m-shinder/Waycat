@@ -1,10 +1,10 @@
-class Python381.AngleBlock : Block {
+abstract class Python381.AngleBlock : Block {
     protected Gdk.RGBA color;
     protected Gtk.Box content = null;
     public const int HEIGHT_STEP = 4;
 
 
-    public AngleBlock(string color, Gtk.Box content) {
+    protected AngleBlock(string color, Gtk.Box content) {
         base();
         this.color.parse(color);
         this.content = content;

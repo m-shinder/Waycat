@@ -28,6 +28,9 @@ namespace Python381 {
             footer.set_parent(this);
         }
 
+        public override string serialize() {
+            return "IF";
+        }
         public override Parser.Node get_node() {
             return null;
         }
@@ -101,6 +104,9 @@ namespace Python381 {
             else_cb();
         }
 
+        public override string serialize() {
+            return "IF";
+        }
         public override Parser.Node get_node() {
             return null;
         }
@@ -147,6 +153,9 @@ namespace Python381 {
             footer.set_parent(this);
         }
 
+        public override string serialize() {
+            return "IF";
+        }
         public override Parser.Node get_node() {
             return null;
         }
@@ -196,6 +205,9 @@ namespace Python381 {
             footer.set_parent(this);
         }
 
+        public override string serialize() {
+            return "IF";
+        }
         public override Parser.Node get_node() {
             return null;
         }
@@ -254,6 +266,9 @@ namespace Python381 {
             footer = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 1);
             footer.set_parent(this);
         }
+        public override string serialize() {
+            return "IF";
+        }
         public override Parser.Node get_node() {
             return null;
         }
@@ -292,6 +307,9 @@ namespace Python381 {
 
             footer = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 1);
             footer.set_parent(this);
+        }
+        public override string serialize() {
+            return "IF";
         }
         public override Parser.Node get_node() {
             return null;

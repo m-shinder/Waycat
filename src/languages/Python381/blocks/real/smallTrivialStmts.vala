@@ -14,6 +14,9 @@ namespace Python381 {
             //self[0].add_child(TEST_LIST_STAR_EXPR);
             return self;
         }
+        public override string serialize() {
+            return exprPlace.serialize() + "\n" + stmt.serialize();
+        }
     }
 
     class AssignStmt : SimpleStmtBase {
@@ -33,6 +36,10 @@ namespace Python381 {
             //self[0].add_child(TEST_LIST_STAR_EXPR);
             return self;
         }
+        public override string serialize() {
+            return leftPlace.serialize() + " = " + rightPlace.serialize() + "\n"
+                    + stmt.serialize() ;
+        }
     }
     class DelStmt : SimpleStmtBase {
         public RoundPlace exprPlace = new RoundPlace();
@@ -50,6 +57,9 @@ namespace Python381 {
             //self[0].add_child(EXPR_LIST);
             return self;
         }
+        public override string serialize() {
+            return "delete " + exprPlace.serialize() + "\n" + stmt.serialize();
+        }
     }
 
     class PassStmt : SimpleStmtBase {
@@ -63,6 +73,9 @@ namespace Python381 {
             self.add_child(Token.PASS_STMT, null,0,0,0,0);
             self[0].add_child(Token.NAME, "pass",0,0,0,0);
             return self;
+        }
+        public override string serialize() {
+            return "pass\n" + stmt.serialize();
         }
     }
 
@@ -79,6 +92,9 @@ namespace Python381 {
             self.add_child(Token.IMPORT_STMT, null,0,0,0,0);
             self[0].add_child(Token.IMPORT_NAME, null,0,0,0,0);
             return self;
+        }
+        public override string serialize() {
+            return "import " + dotNamesPlace.serialize() + "\n" + stmt.serialize();
         }
     }
 
@@ -99,6 +115,10 @@ namespace Python381 {
             self[0].add_child(Token.IMPORT_FROM, null,0,0,0,0);
             return self;
         }
+        public override string serialize() {
+            return "from " + sourcePlace.serialize() + " import " +
+                dotNamesPlace.serialize() + stmt.serialize() + "\n";
+        }
     }
     // TODO: flow and import statements
     class GlobalStmt : SimpleStmtBase {
@@ -116,6 +136,9 @@ namespace Python381 {
             // TODO: actually call exprPlace
             //self[0].add_child(EXPR_LIST);
             return self;
+        }
+        public override string serialize() {
+            return "global " + exprPlace.serialize() + "\n" + stmt.serialize();
         }
     }
 
@@ -135,6 +158,9 @@ namespace Python381 {
             //self[0].add_child(EXPR_LIST);
             return self;
         }
+        public override string serialize() {
+            return "nonlocal " + exprPlace.serialize() + "\n" + stmt.serialize();
+        }
     }
 
     class AssertStmt : SimpleStmtBase {
@@ -152,6 +178,9 @@ namespace Python381 {
             // TODO: actually call exprPlace
             //self[0].add_child(EXPR_LIST);
             return self;
+        }
+        public override string serialize() {
+            return "assert " + exprPlace.serialize() + "\n" + stmt.serialize();
         }
     }
 }

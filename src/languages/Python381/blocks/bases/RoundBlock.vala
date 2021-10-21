@@ -1,10 +1,10 @@
-class Python381.RoundBlock : Block {
+abstract class Python381.RoundBlock : Block {
     protected Gdk.RGBA color;
     public Gtk.Box content = null;
     public const int HEIGHT_STEP = 4;
 
 
-    public RoundBlock(string color, Gtk.Box content) {
+    protected RoundBlock(string color, Gtk.Box content) {
         base();
         this.color.parse(color);
         this.content = content;
