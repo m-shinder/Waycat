@@ -103,7 +103,7 @@ class Python381.NodeBuilder : GLib.Object{
                 res = new DelStmt();
             break;
             case Token.PASS_STMT:
-                res = new DelStmt();
+                res = new PassStmt();
             break;
             case Token.FLOW_STMT:
                 res = new ExprStmt(); // TODO
