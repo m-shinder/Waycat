@@ -1,6 +1,6 @@
 using Python;
 using Python381;
-class Python381.BlockBuilder : GLib.Object{
+class Python381.BlockBuilder : GLib.Object {
     private static BlockBuilder _instance = null;
     public static BlockBuilder instance {
         get {

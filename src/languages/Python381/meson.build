@@ -3,6 +3,7 @@ languages += [
 		'Python381Language.vala',
 		'Python381Block.vala',
 		'NodeBuilder.vala',
+		'BlockBuilder.vala',
 		'BlockComponent.vala',
 
 		'blocks/components/bases/CheckBase.vala',
