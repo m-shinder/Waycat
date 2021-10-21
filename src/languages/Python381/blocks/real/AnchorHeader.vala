@@ -22,7 +22,7 @@ class Python381.AnchorHeader : Block {
     }
 
     public override string serialize() {
-        return stmt.serialize()+"\n";
+        return stmt.serialize();
     }
 
     public override void dispose() {
