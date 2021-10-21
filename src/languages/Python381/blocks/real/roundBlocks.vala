@@ -77,7 +77,10 @@ namespace Python381 {
         public override bool on_workbench() {
             var click = new Gtk.GestureClick();
             click.released.connect((gest, n_press, x, y) => {
-                if ( this.contains(x, y) == false )
+                if ( this.get_parent() !=
+                        this.pick(x, y, Gtk.PickFlags.DEFAULT)
+                            .get_ancestor(typeof(Waycat.DragWrapper))
+                    )
                     return;
                 popover.popup();
             });
