@@ -42,6 +42,12 @@ class Python381.StatementPlace : BlockComponent {
         return item.get_node();
     }
 
+    public override string serialize() {
+        if (item == null)
+            return "";
+        return item.serialize()+"\n";
+    }
+
     public override void measure(Gtk.Orientation orientation,
                                  int for_size,
                                  out int minimum,

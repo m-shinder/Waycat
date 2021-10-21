@@ -26,6 +26,12 @@ class Python381.AnglePlace : BlockComponent {
         return true;
     }
 
+    public override string serialize() {
+        if (item == null)
+            return "";
+        return item.serialize();
+    }
+
     public override Python.Parser.Node get_node() {
         if (item==null)
             return null;

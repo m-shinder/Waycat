@@ -47,6 +47,10 @@ class Python381.EditableLabel : BlockComponent {
         return true;
     }
 
+    public override string serialize() {
+        return text;
+    }
+
     public override void measure(Gtk.Orientation orientation,
                                  int for_size,
                                  out int minimum,

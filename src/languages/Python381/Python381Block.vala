@@ -10,6 +10,7 @@ abstract class Python381.Block : Waycat.Block {
     }
 
     public abstract Python.Parser.Node get_node();
+    public abstract string serialize();
 
     public override Gtk.SizeRequestMode get_request_mode() {
         return Gtk.SizeRequestMode.CONSTANT_SIZE;

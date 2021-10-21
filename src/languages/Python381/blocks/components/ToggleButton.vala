@@ -14,4 +14,8 @@ class Python381.ToggleButton : LabelButtonBase {
     public override Python.Parser.Node get_node() {
         return null;
     }
+
+    public override string serialize() {
+        return "ERROR";
+    }
 }

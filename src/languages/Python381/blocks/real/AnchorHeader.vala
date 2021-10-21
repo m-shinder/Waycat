@@ -21,6 +21,10 @@ class Python381.AnchorHeader : Block {
         return stmt.item.get_node();
     }
 
+    public override string serialize() {
+        return stmt.serialize()+"\n";
+    }
+
     public override void dispose() {
         stmt.unparent();
         base.dispose();

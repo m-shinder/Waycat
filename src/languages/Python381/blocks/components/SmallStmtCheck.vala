@@ -8,4 +8,8 @@ class Python381.SmallStmtCheck : CheckBase {
             return new Python.Parser.Node(Python.Token.SEMI);
         return new Python.Parser.Node(Python.Token.NEWLINE);
     }
+
+    public override string serialize() {
+        return "ERROR";
+    }
 }
