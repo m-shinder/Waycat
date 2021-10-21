@@ -65,12 +65,12 @@ class Python381.NodeBuilder : GLib.Object{
         if (stmt[0].type == Token.COMPOUND_STMT)
             result = parse_token_compound_stmt(stmt[0]);
         else // SIMPLE_STMT
-            result = parse_simple(stmt[0]);
+            result = parse_token_simple_stmt(stmt[0]);
         return result;
     }
 
     // simple = small (';' small)* [';'] \n'
-    private SimpleStmtBase parse_simple(Parser.Node stmt)
+    private SimpleStmtBase parse_token_simple_stmt(Parser.Node stmt)
                                 requires (stmt.type == Token.SIMPLE_STMT) {
         int i = 0;
         bool cont =  (stmt[i+1].type == Token.SEMI);
@@ -435,19 +435,19 @@ class Python381.NodeBuilder : GLib.Object{
     private MultiContainerBase parse_token_compound_stmt_direct(Parser.Node comp) {
         switch (comp.type) {
             case Token.IF_STMT:
-                return parse_token_if_stmt(comp[0]);
+                return parse_token_if_stmt(comp);
             break;
             case Token.WHILE_STMT:
-                return parse_token_while_stmt(comp[0]);
+                return parse_token_while_stmt(comp);
             break;
             case Token.FOR_STMT:
-                return parse_token_for_stmt(comp[0]);
+                return parse_token_for_stmt(comp);
             break;
             case Token.TRY_STMT:
-                return parse_token_try_stmt(comp[0]);
+                return parse_token_try_stmt(comp);
             break;
             case Token.WITH_STMT:
-                return parse_token_while_stmt(comp[0]);
+                return parse_token_while_stmt(comp);
             break;
         }
         return new WhileLoop();
@@ -456,8 +456,25 @@ class Python381.NodeBuilder : GLib.Object{
     private MultiContainerBase parse_token_if_stmt(Parser.Node ifstmt) {
         return new IfStmt();
     }
+    // while_stmt: 'while' expr ':' suite ['else' ':' suite]
     private MultiContainerBase parse_token_while_stmt(Parser.Node whilestmt) {
-        return new WhileLoop();
+        MultiContainerBase self = null;
+        var cond = parse_token_namedexpr_test(whilestmt[1]);
+        var suite = parse_token_suite(whilestmt[3]);
+        if (whilestmt.size > 4) {
+            var elsuite = parse_token_suite(whilestmt[6]);
+            var w = new Waycat.DragWrapper(elsuite);
+            elsuite.on_workbench();
+            self = new WhileLoop.with_else(elsuite);
+        } else {
+            self = new WhileLoop();
+        }
+        var w = new Waycat.DragWrapper(suite);
+        self.stanzas[0].stmt.item = suite;
+        var w2 = new Waycat.DragWrapper(cond);
+        var place = self.stanzas[0].content.get_first_child().get_next_sibling() as RoundPlace;
+        place.item = cond;
+        return self;
     }
     private MultiContainerBase parse_token_for_stmt(Parser.Node forstmt) {
         return new ForLoop();
@@ -467,5 +484,10 @@ class Python381.NodeBuilder : GLib.Object{
     }
     private MultiContainerBase parse_token_with_stmt(Parser.Node with) {
         return new WithStmt();
+    }
+    private StatementBase parse_token_suite(Parser.Node suite) {
+        if (suite.size == 1)
+            return parse_token_simple_stmt(suite[0]);
+        return new AssignStmt();
     }
 }
