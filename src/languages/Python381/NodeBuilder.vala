@@ -47,7 +47,7 @@ class Python381.NodeBuilder : GLib.Object{
         }
 
         while( file[i].type != Python.Token.ENDMARKER && !file[i].indirect()) {
-            var item = parse_stmt(file[i]);
+            var item = parse_token_stmt(file[i]);
             var wrapper = new Waycat.DragWrapper(item);
             item.on_workbench();
             place.item = item;
@@ -60,7 +60,7 @@ class Python381.NodeBuilder : GLib.Object{
         return anchor;
     }
 
-    private StatementBase parse_stmt(Parser.Node stmt) requires (stmt.type == Token.STMT) {
+    private StatementBase parse_token_stmt(Parser.Node stmt) requires (stmt.type == Token.STMT) {
         StatementBase result;
         if (stmt[0].type == Token.COMPOUND_STMT)
             result = parse_token_compound_stmt(stmt[0]);
@@ -75,7 +75,7 @@ class Python381.NodeBuilder : GLib.Object{
         int i = 0;
         bool cont =  (stmt[i+1].type == Token.SEMI);
         //          && (stmt[i+2].type != Token.NEWLINE);
-        SimpleStmtBase res = parse_small(stmt[i], cont);
+        SimpleStmtBase res = parse_token_small_stmt(stmt[i], cont);
         var place = res.stmt as StatementPlace;
         i += 2;
         while (cont) {
@@ -83,7 +83,7 @@ class Python381.NodeBuilder : GLib.Object{
             //   && (stmt[i+2].type != Token.NEWLINE);
             if (stmt[i].type != Token.SIMPLE_STMT) // new line heck
                 break;
-            var s = parse_small(stmt[i], cont);
+            var s = parse_token_small_stmt(stmt[i], cont);
             var w = new Waycat.DragWrapper(s);
             s.on_workbench();
             place.item = s;
@@ -93,7 +93,7 @@ class Python381.NodeBuilder : GLib.Object{
         return res;
     }
 
-    private SimpleStmtBase parse_small(Parser.Node stmt, bool cont) {
+    private SimpleStmtBase parse_token_small_stmt(Parser.Node stmt, bool cont) {
         SimpleStmtBase res = null;
         switch (stmt[0].type) {
             case Token.EXPR_STMT:
@@ -488,10 +488,10 @@ class Python381.NodeBuilder : GLib.Object{
     private StatementBase parse_token_suite(Parser.Node suite) {
         if (suite.size == 1)
             return parse_token_simple_stmt(suite[0]);
-        StatementBase self = parse_stmt(suite[2]);
+        StatementBase self = parse_token_stmt(suite[2]);
         StatementPlace place = self.stmt;
         for(int i = 3; i < suite.size - 1; i++) {
-            var item = parse_stmt(suite[i]);
+            var item = parse_token_stmt(suite[i]);
             var wrapper = new Waycat.DragWrapper(item);
             item.on_workbench();
             place.item = item;
