@@ -63,7 +63,7 @@ class Python381.NodeBuilder : GLib.Object{
     private StatementBase parse_stmt(Parser.Node stmt) requires (stmt.type == Token.STMT) {
         StatementBase result;
         if (stmt[0].type == Token.COMPOUND_STMT)
-            result = parse_compound(stmt[0]);
+            result = parse_token_compound_stmt(stmt[0]);
         else // SIMPLE_STMT
             result = parse_simple(stmt[0]);
         return result;
@@ -424,7 +424,7 @@ class Python381.NodeBuilder : GLib.Object{
         return self;
     }
 
-    private StatementBase parse_compound(Parser.Node stmt) {
+    private StatementBase parse_token_compound_stmt(Parser.Node stmt) {
         if (stmt[0].type == Token.DECORATED)
             return parse_plain_compound(stmt[0]);
         if (stmt[0].type == Token.ASYNC_STMT)
@@ -432,7 +432,7 @@ class Python381.NodeBuilder : GLib.Object{
         return parse_plain_compound(stmt[0]);
     }
 
-    private MultiContainerBase parse_plain_compound(Parser.Node comp) {
+    private MultiContainerBase parse_token_compoun_stmt_direct(Parser.Node comp) {
         return new WhileLoop();
     }
 }
