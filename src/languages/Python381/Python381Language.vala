@@ -115,7 +115,7 @@ class Python381Language : Waycat.Language {
                 buffer.get_text(start, end, true).data,
                 Python.Token.FILE_INPUT
         );
-        Waycat.Block[] blocks = NodeBuilder.instance.parse_node(fileNode);
+        Waycat.Block[] blocks = BlockBuilder.instance.parse_node(fileNode);
         for (int i =0; i < blocks.length; i++)
             update_insert(blocks[i]);
         return blocks;

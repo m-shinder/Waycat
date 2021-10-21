@@ -1,17 +1,17 @@
 using Python;
 using Python381;
-class Python381.NodeBuilder : GLib.Object{
-    private static NodeBuilder _instance = null;
-    public static NodeBuilder instance {
+class Python381.BlockBuilder : GLib.Object{
+    private static BlockBuilder _instance = null;
+    public static BlockBuilder instance {
         get {
             if ( _instance == null)
-                _instance = new NodeBuilder();
+                _instance = new BlockBuilder();
             return _instance;
         }
         private set { _instance = value; }
     }
 
-    private NodeBuilder() {
+    private BlockBuilder() {
 
     }
 
