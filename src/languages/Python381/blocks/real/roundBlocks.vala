@@ -65,7 +65,7 @@ namespace Python381 {
     }
 
     class SeparatedExpr : RoundBlock {
-        public static string[] seps = {",", "+"};
+        public static string[] seps = {", ", " + "};
         public Gtk.Popover popover = new Gtk.Popover();
         public string separator;
         public SeparatedExpr (string s) {
@@ -84,8 +84,17 @@ namespace Python381 {
         }
 
         public override string serialize() {
-            return "SEPARATED";
+            var list = content.observe_children();
+            var strings = new string[(int)(list.get_n_items())/2];
+            for (int i=0; i < strings.length; i++) {
+                var place = list.get_item(i*2) as RoundPlace;
+                if (place.item != null)
+                    strings[i] = NodeBuilder.instance
+                            .wrap_for_operator(place.item, separator);
+            }
+            return string.joinv(separator, strings);
         }
+
         public override bool on_workbench() {
             var click = new Gtk.GestureClick();
             click.released.connect((gest, n_press, x, y) => {
@@ -140,8 +149,17 @@ namespace Python381 {
             content.append(new Gtk.Label(")"));
         }
         public override string serialize() {
-            return function.serialize() + "(ARGH)";
+            var list = content.observe_children();
+            var strings = new string[(int)(list.get_n_items())/2-1];
+            for (int i=0; i < strings.length; i++) {
+                var place = list.get_item(i*2) as RoundPlace;
+                if (place.item != null)
+                    strings[i] = NodeBuilder.instance
+                            .wrap_for_operator(place.item, ", ");
+            }
+            return function.serialize() + "(" + string.joinv(", ", strings) + ")";
         }
+
 
         public override bool on_workbench() {
             return base.on_workbench();
@@ -188,9 +206,6 @@ namespace Python381 {
         public override bool on_workbench() {
             return base.on_workbench();
         }
-        public override string serialize() {
-            return "await " + function.serialize() + "(ARGH)";
-        }
 
         public void changed_cb(RoundBlock? item) {
             if (item != null) {
@@ -213,6 +228,17 @@ namespace Python381 {
         }
         public override Parser.Node get_node() {
             return null;
+        }
+        public override string serialize() {
+            var list = content.observe_children();
+            var strings = new string[(int)(list.get_n_items())/2-1];
+            for (int i=0; i < strings.length; i++) {
+                var place = list.get_item(i*2) as RoundPlace;
+                if (place.item != null)
+                    strings[i] = NodeBuilder.instance
+                            .wrap_for_operator(place.item, ", ");
+            }
+            return function.serialize() + "(" + string.joinv(", ", strings) + ")";
         }
     }
 }
