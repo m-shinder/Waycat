@@ -150,9 +150,9 @@ namespace Python381 {
         }
         public override string serialize() {
             var list = content.observe_children();
-            var strings = new string[(int)(list.get_n_items())/2-1];
+            var strings = new string[(int)(list.get_n_items())/2-2];
             for (int i=0; i < strings.length; i++) {
-                var place = list.get_item(i*2) as RoundPlace;
+                var place = list.get_item(2+i*2) as RoundPlace;
                 if (place.item != null)
                     strings[i] = NodeBuilder.instance
                             .wrap_for_operator(place.item, ", ");
@@ -231,14 +231,14 @@ namespace Python381 {
         }
         public override string serialize() {
             var list = content.observe_children();
-            var strings = new string[(int)(list.get_n_items())/2-1];
+            var strings = new string[(int)(list.get_n_items())/2-3];
             for (int i=0; i < strings.length; i++) {
-                var place = list.get_item(i*2) as RoundPlace;
+                var place = list.get_item(3+i*2) as RoundPlace;
                 if (place.item != null)
                     strings[i] = NodeBuilder.instance
                             .wrap_for_operator(place.item, ", ");
             }
-            return function.serialize() + "(" + string.joinv(", ", strings) + ")";
+            return "await "+ function.serialize() + "(" + string.joinv(", ", strings) + ")";
         }
     }
 }
