@@ -18,9 +18,11 @@ namespace Waycat {
              dialog.response.connect((response) => {
                 if (response == -3) {
                     file = dialog.get_file();
+                    dialog.destroy();
                     place_blocks_on_workbench(workbench, lang.open_iStream(file.read()));
+                } else {
+                    dialog.destroy();
                 }
-                dialog.destroy();
             });
             dialog.show();
         });
