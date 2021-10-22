@@ -45,7 +45,7 @@ class Python381.StatementPlace : BlockComponent {
     public override string serialize() {
         if (item == null)
             return "";
-        return item.serialize()+"\n";
+        return item.serialize();
     }
 
     public override void measure(Gtk.Orientation orientation,
