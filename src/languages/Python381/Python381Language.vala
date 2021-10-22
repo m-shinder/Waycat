@@ -124,6 +124,13 @@ class Python381Language : Waycat.Language {
 
     public override void run() {
         print("running\n");
+        FileIOStream tmpout;
+        var file = File.new_tmp(null, out tmpout);
+        save_buffer_to_oStream(tmpout.get_output_stream() as FileOutputStream);
+        string path = file.get_path();
+        Process.spawn_command_line_sync(
+            @"gnome-terminal --wait -- bash -c 'python3.8 $path ; read -n1'"
+        );
     }
 
     private Waycat.Block[] get_blocks_from_buffer() {
