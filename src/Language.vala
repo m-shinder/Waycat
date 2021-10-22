@@ -22,4 +22,5 @@ public abstract class Waycat.Language : Object {
     public abstract bool update_remove(Waycat.Block block);
     public abstract bool save_buffer_to_oStream(FileOutputStream fileo);
     public abstract Block[] open_iStream(FileInputStream fileo);
+    public abstract void run();
 }

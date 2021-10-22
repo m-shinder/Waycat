@@ -115,4 +115,8 @@ class ExampleLanguage : Waycat.Language {
             buffer.insert_at_cursor(line + "\n", -1);
         return get_blocks();
     }
+
+    public override void run() {
+        print("Example: run, dry-run\n");
+    }
 }

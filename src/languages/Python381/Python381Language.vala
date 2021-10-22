@@ -122,6 +122,10 @@ class Python381Language : Waycat.Language {
         return get_blocks_from_buffer();
     }
 
+    public override void run() {
+        print("running\n");
+    }
+
     private Waycat.Block[] get_blocks_from_buffer() {
         Gtk.TextIter start, end;
         buffer.get_start_iter(out start);
