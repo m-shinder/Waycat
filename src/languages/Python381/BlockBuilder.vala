@@ -209,7 +209,15 @@ class Python381.BlockBuilder : GLib.Object {
     private RoundBlock parse_token_comparasion(Parser.Node comp) {
         if (comp.size == 1)
             return parse_token_expr(comp[0]);
-        return new NameAdapter();
+        var self = new SeparatedExpr(comp[1][0].n_str);
+        var place = self.content.get_first_child() as RoundPlace;
+        for (int i=0; i < comp.size; i+=2) {
+            var item = parse_token_expr(comp[i]);
+            var w = new Waycat.DragWrapper(item);
+            place.item = item;
+            place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        }
+        return self;
     }
 
     private RoundBlock parse_token_expr(Parser.Node expr) {
@@ -268,10 +276,12 @@ class Python381.BlockBuilder : GLib.Object {
         bool await = (atomExpr[0].type != Token.ATOM);
         var self = parse_token_trailer(atomExpr[i], await);
         RoundPlace cur;
-        if (await)
+        if (self is AwaitCallExpr)
             cur = (self as AwaitCallExpr).function;
-        else
+        else if (self is CallExpr)
             cur = (self as CallExpr).function;
+        else
+            cur = (self as DotName).expr;
 
         for (i = i-1; atomExpr[i].type != Token.ATOM; i--) {
             var t = parse_token_trailer(atomExpr[i], false);
@@ -483,6 +493,7 @@ class Python381.BlockBuilder : GLib.Object {
         w = new Waycat.DragWrapper(cond);
         place.item = cond;
         self.on_workbench();
+        cond.on_workbench();
         return self;
     }
     // while_stmt: 'while' expr ':' suite ['else' ':' suite]
