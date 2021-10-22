@@ -402,6 +402,35 @@ class Python381.BlockBuilder : GLib.Object {
             return parse_token_test(walrus[0]);
         return parse_token_test(walrus[0]);
     }
+
+    private RoundBlock parse_token_testlist(Parser.Node list) {
+        if (list.size == 1)
+            return parse_token_test(list[0]);
+        var self = new SeparatedExpr(",");
+        var place = self.content.get_first_child() as RoundPlace;
+        for (int i=0; i < list.size; i+=2) {
+            place.item = parse_token_test(list[i]);
+            var w = new Waycat.DragWrapper(place.item);
+            place.item.on_workbench();
+            place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        }
+        return self;
+    }
+
+    private RoundBlock parse_token_exprlist(Parser.Node list) {
+        if (list.size == 1)
+            return parse_token_expr(list[0]);
+        var self = new SeparatedExpr(",");
+        var place = self.content.get_first_child() as RoundPlace;
+        for (int i=0; i < list.size; i+=2) {
+            place.item = parse_token_expr(list[i]);
+            var w = new Waycat.DragWrapper(place.item);
+            place.item.on_workbench();
+            place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        }
+        return self;
+    }
+
     private SimpleStmtBase parse_small_import(Parser.Node import) {
         if (import[0].type == Token.IMPORT_NAME) {
             var block = new ImportNameStmt();
@@ -467,9 +496,25 @@ class Python381.BlockBuilder : GLib.Object {
         place.item = cond;
         return self;
     }
+
     private MultiContainerBase parse_token_for_stmt(Parser.Node forstmt) {
-        return new ForLoop();
+        var iter = parse_token_exprlist(forstmt[1]);
+        var values = parse_token_testlist(forstmt[3]);
+        var suite = parse_token_suite(forstmt[5]);
+        var self = new ForLoop();
+        var w = new Waycat.DragWrapper(suite);
+        self.stanzas[0].stmt.item = suite;
+        w = new Waycat.DragWrapper(iter);
+        var place = self.stanzas[0].content
+                    .get_first_child().get_next_sibling() as RoundPlace;
+        place.item = iter;
+        place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        w = new Waycat.DragWrapper(values);
+        place.item = values;
+        self.on_workbench();
+        return self;
     }
+
     private MultiContainerBase parse_token_try_stmt(Parser.Node trystmt) {
         return new TryStmt();
     }
