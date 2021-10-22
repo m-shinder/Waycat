@@ -152,7 +152,6 @@ class Python381.BlockBuilder : GLib.Object {
         if (tlse.size == 1)
             return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
         return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
-        return null;
     }
 
     private NameConst get_single_nameConst_from_tlse_child(Parser.Node n) {
@@ -360,7 +359,6 @@ class Python381.BlockBuilder : GLib.Object {
             case Token.LBRACE:
                 if (atom[1].type == Token.RBRACE) return null;
                 return parse_token_testlist_comp(atom[1][0]);
-            break;
             case Token.NAME:
                 var a = new NameAdapter();
                 var n = new NameConst.with_name(atom[0].n_str);
@@ -368,11 +366,9 @@ class Python381.BlockBuilder : GLib.Object {
                 var w = new Waycat.DragWrapper(n);
                 a.name.item = n;
                 return a;
-            break;
             case Token.NUMBER:
             case Token.STRING:
                 return new ExprConst.with_name(atom[0].n_str);
-            break;
         }
         return new NameAdapter();
     }
@@ -436,19 +432,14 @@ class Python381.BlockBuilder : GLib.Object {
         switch (comp.type) {
             case Token.IF_STMT:
                 return parse_token_if_stmt(comp);
-            break;
             case Token.WHILE_STMT:
                 return parse_token_while_stmt(comp);
-            break;
             case Token.FOR_STMT:
                 return parse_token_for_stmt(comp);
-            break;
             case Token.TRY_STMT:
                 return parse_token_try_stmt(comp);
-            break;
             case Token.WITH_STMT:
                 return parse_token_while_stmt(comp);
-            break;
         }
         return new WhileLoop();
     }
