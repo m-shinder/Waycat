@@ -474,7 +474,16 @@ class Python381.BlockBuilder : GLib.Object {
     }
 
     private MultiContainerBase parse_token_if_stmt(Parser.Node ifstmt) {
-        return new IfStmt();
+        var self = new IfStmt();
+        var cond = parse_token_namedexpr_test(ifstmt[1]);
+        var suite = parse_token_suite(ifstmt[3]);
+        var place = self.stanzas[0].content.get_first_child().get_next_sibling() as RoundPlace;
+        var w = new Waycat.DragWrapper(suite);
+        self.stanzas[0].stmt.item = suite;
+        w = new Waycat.DragWrapper(cond);
+        place.item = cond;
+        self.on_workbench();
+        return self;
     }
     // while_stmt: 'while' expr ':' suite ['else' ':' suite]
     private MultiContainerBase parse_token_while_stmt(Parser.Node whilestmt) {
@@ -522,6 +531,7 @@ class Python381.BlockBuilder : GLib.Object {
         return new WithStmt();
     }
     private StatementBase parse_token_suite(Parser.Node suite) {
+        print("%d\n%d\n",suite.type,suite[0].type);
         if (suite.size == 1)
             return parse_token_simple_stmt(suite[0]);
         StatementBase self = parse_token_stmt(suite[2]);
