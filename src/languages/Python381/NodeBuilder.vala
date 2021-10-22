@@ -1,7 +1,12 @@
 using Python;
 using Python381;
 class Python381.NodeBuilder : GLib.Object {
-    public static string[] operators = {", ", " + "};
+    public static string[] operators = {
+        ", ", " := ", " or ", " and ", " not ",
+        " < ", " > ", " == ", " >= ", " <= ",
+        " <> ", " != ", " in ", "not in", " is ", "is not",
+        " | ", " ^ ", " & ", " >> ", " << ", " + ", " - ", " * ", " ** ",
+    };
     private static NodeBuilder _instance = null;
     public static NodeBuilder  instance {
         get {
