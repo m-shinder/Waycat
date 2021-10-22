@@ -61,6 +61,10 @@ namespace Waycat {
                 lang.update_insert(block);
             }
         });
+
+        run.clicked.connect(() => {
+            lang.run();
+        });
     }
 
     private void save_helper(Language lang, File? file) {
