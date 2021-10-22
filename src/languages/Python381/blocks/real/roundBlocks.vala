@@ -65,7 +65,11 @@ namespace Python381 {
     }
 
     class SeparatedExpr : RoundBlock {
-        public static string[] seps = {", ", " + "};
+        public static string[] seps  = {
+        ", ", " or ", " and ", " not ",
+        " < ", " > ", " == ", " >= ", " <= ",
+        " <> ", " != ", " | ", " ^ ", " & ", " >> ", " << ", " + ", " - ", " * ",
+    };
         public Gtk.Popover popover = new Gtk.Popover();
         public string separator;
         public SeparatedExpr (string s) {

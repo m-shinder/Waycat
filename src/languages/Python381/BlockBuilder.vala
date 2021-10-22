@@ -531,7 +531,6 @@ class Python381.BlockBuilder : GLib.Object {
         return new WithStmt();
     }
     private StatementBase parse_token_suite(Parser.Node suite) {
-        print("%d\n%d\n",suite.type,suite[0].type);
         if (suite.size == 1)
             return parse_token_simple_stmt(suite[0]);
         StatementBase self = parse_token_stmt(suite[2]);
