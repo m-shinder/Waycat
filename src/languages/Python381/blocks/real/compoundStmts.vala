@@ -109,7 +109,8 @@ namespace Python381 {
                                     .get_next_sibling() as RoundPlace;
             var cond = condition.serialize();
             var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
-            return @"while $cond:\n  $body";
+            var next = stmt.serialize();
+            return @"while $cond:\n  $body\n$next";
         }
         public override Parser.Node get_node() {
             return null;
@@ -158,7 +159,15 @@ namespace Python381 {
         }
 
         public override string serialize() {
-            return "IF";
+            var iterator = stanzas[0].content.get_first_child()
+                                    .get_next_sibling() as RoundPlace;
+            var values = iterator.get_next_sibling()
+                                    .get_next_sibling() as RoundPlace;
+            var iter = iterator.serialize();
+            var val  = values.serialize();
+            var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            var next = stmt.serialize();
+            return @"for $iter in $val:\n  $body\n$next";
         }
         public override Parser.Node get_node() {
             return null;
