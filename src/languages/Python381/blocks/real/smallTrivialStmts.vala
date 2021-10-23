@@ -5,7 +5,6 @@ namespace Python381 {
         public ExprStmt() {
             base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(exprPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -27,7 +26,6 @@ namespace Python381 {
             content.append(leftPlace);
             content.append(new Gtk.Label("="));
             content.append(rightPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -48,7 +46,6 @@ namespace Python381 {
             base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("delete"));
             content.append(exprPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -67,7 +64,6 @@ namespace Python381 {
         public PassStmt() {
             base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("pass"));
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -86,7 +82,6 @@ namespace Python381 {
             base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("import"));
             content.append(dotNamesPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -108,7 +103,6 @@ namespace Python381 {
             content.append(sourcePlace);
             content.append(new Gtk.Label("import"));
             content.append(dotNamesPlace);
-            content.append(small);
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -128,7 +122,6 @@ namespace Python381 {
             base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("global"));
             content.append(exprPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -149,7 +142,6 @@ namespace Python381 {
             base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("nonlocal"));
             content.append(exprPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
@@ -170,7 +162,6 @@ namespace Python381 {
             base("darkOrange", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5));
             content.append(new Gtk.Label("assert"));
             content.append(exprPlace);
-            content.append(small); // if do it in base() it will be at start
         }
         public override Parser.Node get_small_node() {
             var self = new Parser.Node(Token.SMALL_STMT);
