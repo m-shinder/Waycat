@@ -38,7 +38,10 @@ namespace Python381 {
             return self;
         }
         public override string serialize() {
-            return "return" + expression.serialize() + "\n" + stmt.serialize();
+            var expr = "";
+            if (expression.item != null)
+                expr = NodeBuilder.instance.wrap_for_operator(expression.item, ":=");
+            return "return " + expr + "\n" + stmt.serialize();
         }
     }
     class RaiseStmt : SimpleStmtBase {
@@ -53,7 +56,10 @@ namespace Python381 {
             return self;
         }
         public override string serialize() {
-            return "raise" + expression.serialize() + "\n" + stmt.serialize();
+            var expr = "";
+            if (expression.item != null)
+                expr = NodeBuilder.instance.wrap_for_operator(expression.item, ":=");
+            return "raise " + expr + "\n" + stmt.serialize();
         }
     }
     class YieldStmt : SimpleStmtBase {
@@ -68,7 +74,10 @@ namespace Python381 {
             return self;
         }
         public override string serialize() {
-            return "yield" + expression.serialize() + "\n" + stmt.serialize();
+            var expr = "";
+            if (expression.item != null)
+                expr = NodeBuilder.instance.wrap_for_operator(expression.item, ":=");
+            return "yield " + expr + "\n" + stmt.serialize();
         }
     }
 }
