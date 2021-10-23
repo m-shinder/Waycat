@@ -33,8 +33,8 @@ namespace Python381 {
                                     .get_next_sibling() as RoundPlace;
             var cond = condition.serialize();
             var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
-            var next = stmt.serialize();
-            return @"if $cond:\n  $body\n$next";
+            var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
+            return @"if $cond:\n  $body$next";
         }
         public override Parser.Node get_node() {
             return null;
@@ -114,8 +114,8 @@ namespace Python381 {
                                     .get_next_sibling() as RoundPlace;
             var cond = condition.serialize();
             var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
-            var next = stmt.serialize();
-            return @"while $cond:\n  $body\n$next";
+            var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
+            return @"while $cond:\n  $body$next";
         }
         public override Parser.Node get_node() {
             return null;
@@ -171,8 +171,8 @@ namespace Python381 {
             var iter = iterator.serialize();
             var val  = values.serialize();
             var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
-            var next = stmt.serialize();
-            return @"for $iter in $val:\n  $body\n$next";
+            var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
+            return @"for $iter in $val:\n  $body$next";
         }
         public override Parser.Node get_node() {
             return null;
