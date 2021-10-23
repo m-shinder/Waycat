@@ -110,7 +110,7 @@ class Python381.BlockBuilder : GLib.Object {
                 res = new PassStmt();
             break;
             case Token.FLOW_STMT:
-                res = new ExprStmt(); // TODO
+                res = parse_token_flow_stmt(stmt[0]);
             break;
             case Token.IMPORT_STMT:
                 res = parse_small_import(stmt[0]);
@@ -445,6 +445,27 @@ class Python381.BlockBuilder : GLib.Object {
         return self;
     }
 
+    private SimpleStmtBase parse_token_flow_stmt(Parser.Node flow) {
+        switch (flow[0].type) {
+            case Token.BREAK_STMT:
+                return new BreakStmt();
+            case Token.CONTINUE_STMT:
+                return new BreakStmt();
+            case Token.RETURN_STMT:
+                var self = new ReturnStmt();
+                if (flow[0].size > 1) {
+                    var it = parse_token_test(flow[0][1][0]);
+                    var w = new Waycat.DragWrapper(it);
+                    self.expression.item = it;
+                }
+                return self;
+            case Token.RAISE_STMT:
+            case Token.YIELD_STMT:
+                return null;
+        }
+        return null;
+    }
+
     private SimpleStmtBase parse_small_import(Parser.Node import) {
         if (import[0].type == Token.IMPORT_NAME) {
             var block = new ImportNameStmt();
@@ -517,7 +538,6 @@ class Python381.BlockBuilder : GLib.Object {
             return self;
         unowned var tal = prms[1];
         var place = self.content.get_first_child() as RoundPlace;
-        print("heelp %d", tal.size);
         for (int i=0; i<tal.size; i+=2) {
             var n = new NameConst.with_name(tal[i][0].n_str);
             var a = new NameAdapter.with_nonwrapped_name(n);
