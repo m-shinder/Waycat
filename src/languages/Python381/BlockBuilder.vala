@@ -42,6 +42,10 @@ class Python381.BlockBuilder : GLib.Object {
         bool parse_indirect = file[i].indirect();
 
         if (parse_indirect) { // class or func smth
+            var item = parse_token_stmt(file[i]);
+            var wrapper = new Waycat.DragWrapper(item);
+            item.on_workbench();
+            place.item = item;
             i++;
             return anchor;
         }
@@ -477,7 +481,6 @@ class Python381.BlockBuilder : GLib.Object {
             dname = new NameConst.with_name(".");
         var w = new Waycat.DragWrapper(dname);
         self.sourcePlace.item = dname;
-        print("%d\n", from[i+2][0][0].type);
         var names = new NameConst.with_name(from[i+2][0][0].n_str);
         w = new Waycat.DragWrapper(names);
         self.dotNamesPlace.item = names;
@@ -489,7 +492,40 @@ class Python381.BlockBuilder : GLib.Object {
             return parse_token_compound_stmt_direct(stmt[0]);
         if (stmt[0].type == Token.ASYNC_STMT)
             return parse_token_compound_stmt_direct(stmt[0]);
+        if (stmt[0].type == Token.FUNCDEF)
+            return parse_token_funcdef(stmt[0]);
         return parse_token_compound_stmt_direct(stmt[0]);
+    }
+
+    private FuncDef parse_token_funcdef(Parser.Node func) {
+        var self = new FuncDef();
+        var name = new NameConst.with_name(func[1].n_str);
+        var args = parse_token_parameters(func[2]);
+        var suite = parse_token_suite(func[4]);
+        var w = new Waycat.DragWrapper(name);
+        self.name.item = name;
+        w = new Waycat.DragWrapper(suite);
+        self.stanzas[0].stmt.item = suite;
+        w = new Waycat.DragWrapper(args);
+        self.args.item = args;
+        return self;
+    }
+
+    private SeparatedExpr parse_token_parameters(Parser.Node prms) {
+        var self = new SeparatedExpr(", ");
+        if (prms.size == 2)
+            return self;
+        unowned var tal = prms[1];
+        var place = self.content.get_first_child() as RoundPlace;
+        print("heelp %d", tal.size);
+        for (int i=0; i<tal.size; i+=2) {
+            var n = new NameConst.with_name(tal[i][0].n_str);
+            var a = new NameAdapter.with_nonwrapped_name(n);
+            var w = new Waycat.DragWrapper(a);
+            place.item = a;
+            place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        }
+        return self;
     }
 
     private MultiContainerBase parse_token_compound_stmt_direct(Parser.Node comp) {

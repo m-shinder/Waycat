@@ -315,19 +315,24 @@ namespace Python381 {
     }
 
     class FuncDef : MultiContainerBase {
+        public AnglePlace name = new AnglePlace();
+        public RoundPlace args = new RoundPlace();
         public FuncDef () {
             base("darkOrange", {
                 Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(32)),
             });
             stanzas[0].content.append(new Gtk.Label("function"));
-            stanzas[0].content.append(new AnglePlace());
-            stanzas[0].content.append(new RoundPlace());
+            stanzas[0].content.append(name);
+            stanzas[0].content.append(args);
 
             footer = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 1);
             footer.set_parent(this);
         }
         public override string serialize() {
-            return "IF";
+            var n = name.serialize();
+            var a = NodeBuilder.instance.wrap_for_operator(args.item, "");
+            var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            return @"def $n$a:\n  $body";
         }
         public override Parser.Node get_node() {
             return null;
