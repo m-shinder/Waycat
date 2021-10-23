@@ -41,7 +41,14 @@ namespace Python381 {
 
         }
         public override string serialize() {
-            return "SEPaRATED";
+            var list = content.observe_children();
+            var strings = new string[(int)(list.get_n_items())/2];
+            for (int i=0; i < strings.length; i++) {
+                var place = list.get_item(i*2) as AnglePlace;
+                if (place.item != null)
+                    strings[i] = place.serialize();
+            }
+            return string.joinv(separator, strings);
         }
         public void changed_cb(AngleBlock? item) {
             if (item != null) {
