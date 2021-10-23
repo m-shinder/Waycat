@@ -444,18 +444,43 @@ class Python381.BlockBuilder : GLib.Object {
     private SimpleStmtBase parse_small_import(Parser.Node import) {
         if (import[0].type == Token.IMPORT_NAME) {
             var block = new ImportNameStmt();
-            var w = new Waycat.DragWrapper(parse_small_import_dotNames(import[0][1]));
+            var w = new Waycat.DragWrapper(parse_token_dotted_as_names(import[0][1]));
             block.dotNamesPlace.item = w.get_child() as AngleBlock;
             block.dotNamesPlace.item.on_workbench();
             return block;
         } else {
-            return new ImportFromStmt();
+            var self = parse_token_import_from(import[0]);
+            return self;
         }
     }
 
-    private AngleBlock parse_small_import_dotNames(Parser.Node names) {
+    private AngleBlock parse_token_dotted_as_names(Parser.Node names) {
         var self = new NameConst();
         self.lbl.text = names[0][0][0].n_str;
+        return self;
+    }
+
+    private SimpleStmtBase parse_token_import_from(Parser.Node from) {
+        var self = new ImportFromStmt();
+        NameConst dname = null;
+        int i;
+        for (i=1; i<from.size; i++) {
+            if (from[i].n_str == "import")
+                break;
+            if (from[i].type == Token.DOTTED_NAME) {
+                dname = new NameConst.with_name(from[i][0].n_str);
+                dname.on_workbench();
+                break;
+            }
+        }
+        if (dname == null)
+            dname = new NameConst.with_name(".");
+        var w = new Waycat.DragWrapper(dname);
+        self.sourcePlace.item = dname;
+        print("%d\n", from[i+2][0][0].type);
+        var names = new NameConst.with_name(from[i+2][0][0].n_str);
+        w = new Waycat.DragWrapper(names);
+        self.dotNamesPlace.item = names;
         return self;
     }
 
