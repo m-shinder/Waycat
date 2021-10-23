@@ -37,7 +37,8 @@ namespace Python381 {
             return self;
         }
         public override string serialize() {
-            return leftPlace.serialize() + " = " + rightPlace.serialize() + "\n"
+            string rhs = NodeBuilder.instance.wrap_for_operator(rightPlace.item, " := ");
+            return leftPlace.serialize() + " = " + rhs + "\n"
                     + stmt.serialize() ;
         }
     }
