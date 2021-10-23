@@ -1,6 +1,6 @@
 abstract class Python381.AngleBlock : Block {
     protected Gdk.RGBA color;
-    protected Gtk.Box content = null;
+    public Gtk.Box content = null;
     public const int HEIGHT_STEP = 4;
 
 
