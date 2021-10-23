@@ -1,6 +1,7 @@
 using Python;
 using Python381;
 class Python381.BlockBuilder : GLib.Object {
+    public delegate RoundBlock SepElem(Parser.Node node);
     private static BlockBuilder _instance = null;
     public static BlockBuilder instance {
         get {
@@ -155,7 +156,16 @@ class Python381.BlockBuilder : GLib.Object {
     private AngleBlock parse_small_expr_assign_lhs(Parser.Node tlse) {
         if (tlse.size == 1)
             return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
-        return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
+        var self = new SeparatedNames(", ");
+        var place = self.content.get_first_child() as AnglePlace;
+        for (int i=0; i<tlse.size; i+=2) {
+            var it = get_single_nameConst_from_tlse_child(tlse[i]);
+            var w = new Waycat.DragWrapper(it);
+            place.item = it;
+            it.on_workbench();
+            place = place.get_next_sibling().get_next_sibling() as AnglePlace;
+        }
+        return self;
     }
 
     private NameConst get_single_nameConst_from_tlse_child(Parser.Node n) {
@@ -251,13 +261,13 @@ class Python381.BlockBuilder : GLib.Object {
     private RoundBlock parse_token_arithExpr(Parser.Node arith) {
         if (arith.size == 1)
             return parse_token_term(arith[0]);
-        return new NameAdapter();
+        return separated_from_gomogeneous(arith, parse_token_term);
     }
 
     private RoundBlock parse_token_term(Parser.Node term) {
         if (term.size == 1)
             return parse_token_factor(term[0]);
-        return new NameAdapter();
+        return separated_from_gomogeneous(term, parse_token_factor);
     }
 
     private RoundBlock parse_token_factor(Parser.Node factor) {
@@ -528,6 +538,7 @@ class Python381.BlockBuilder : GLib.Object {
         w = new Waycat.DragWrapper(suite);
         self.stanzas[0].stmt.item = suite;
         w = new Waycat.DragWrapper(args);
+        suite.on_workbench();
         self.args.item = args;
         return self;
     }
@@ -639,4 +650,17 @@ class Python381.BlockBuilder : GLib.Object {
         }
         return self;
     }
+
+    private SeparatedExpr separated_from_gomogeneous(Parser.Node math, SepElem func) {
+        var self = new SeparatedExpr(" "+math[1].n_str+" ");
+        var place = self.content.get_first_child() as RoundPlace;
+        for (int i=0; i < math.size; i+=2) {
+            var item = func(math[i]);
+            var w = new Waycat.DragWrapper(item);
+            place.item = item;
+            place = place.get_next_sibling().get_next_sibling() as RoundPlace;
+        }
+        return self;
+    }
+
 }
