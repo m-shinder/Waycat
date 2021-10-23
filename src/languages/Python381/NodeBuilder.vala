@@ -5,7 +5,8 @@ class Python381.NodeBuilder : GLib.Object {
         ", ", " := ", " or ", " and ", " not ",
         " < ", " > ", " == ", " >= ", " <= ",
         " <> ", " != ", " in ", "not in", " is ", "is not",
-        " | ", " ^ ", " & ", " >> ", " << ", " + ", " - ", " * ", " ** ",
+        " | ", " ^ ", " & ", " >> ", " << ", " + ", " - ",
+        " * ", " / ", " % "," ** ",
     };
     private static NodeBuilder _instance = null;
     public static NodeBuilder  instance {
