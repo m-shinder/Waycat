@@ -26,6 +26,7 @@ languages += [
 
 		'blocks/real/AnchorHeader.vala',
 		'blocks/real/smallTrivialStmts.vala',
+		'blocks/real/flowStmts.vala',
 		'blocks/real/compoundStmts.vala',
 		'blocks/real/angleBlocks.vala',
 		'blocks/real/roundBlocks.vala',
