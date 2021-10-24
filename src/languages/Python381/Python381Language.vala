@@ -2,6 +2,9 @@ using Python381;
 class Python381Language : Waycat.Language {
     public Python381Language() {
         buffer = new Gtk.SourceBuffer(tag_table);
+        buffer.set_language(
+            Gtk.SourceLanguageManager.get_default().get_language("python3")
+        );
     }
 
     public override Waycat.Category[] get_categories() {
