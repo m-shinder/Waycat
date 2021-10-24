@@ -34,6 +34,7 @@ class Python381Language : Waycat.Language {
             new YieldStmt(),
             new PassStmt(),
             new NameConst(),
+            new ArrayAccess(),
             new DotName(),
             new ExprConst(),
             new CallExpr(),

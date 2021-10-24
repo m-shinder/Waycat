@@ -70,4 +70,18 @@ namespace Python381 {
             return null;
         }
     }
+
+    class ExprAdapter : AngleBlock {
+        public RoundPlace expr = new RoundPlace();
+        public ExprAdapter () {
+            base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
+            content.append(expr);
+        }
+        public override string serialize() {
+            return expr.serialize();
+        }
+        public override Parser.Node get_node() {
+            return null;
+        }
+    }
 }
