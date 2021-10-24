@@ -179,7 +179,12 @@ class Python381.BlockBuilder : GLib.Object {
         self.lbl.text = name.n_str;
         return self;
     }
+    private AngleBlock lhs_from_expression(Parser.Node expr) { //8
+        unowned var atomexpr = expr[0][0][0][0][0][0][0][0];
+        return null;
+    }
     private unowned Parser.Node get_name_from_expr(Parser.Node expr) {
+        lhs_from_expression(expr);
         return expr[0][0][0][0][0][0][0][0][0][0];
     }
 
@@ -294,8 +299,10 @@ class Python381.BlockBuilder : GLib.Object {
             cur = (self as AwaitCallExpr).function;
         else if (self is CallExpr)
             cur = (self as CallExpr).function;
-        else
+        else if (self is DotName)
             cur = (self as DotName).expr;
+        else
+            cur = (self as ArrayAccess).array;
 
         for (i = i-1; atomExpr[i].type != Token.ATOM; i--) {
             var t = parse_token_trailer(atomExpr[i], false);
@@ -304,9 +311,10 @@ class Python381.BlockBuilder : GLib.Object {
             cur.item = t;
             switch (atomExpr[i][0].n_str) {
                 case "(":
-                    cur = (self as CallExpr).function;
+                    cur = (t as CallExpr).function;
                 break;
                 case "[":
+                    cur = (t as ArrayAccess).array;
                 break;
                 case ".":
                     cur = (t as DotName).expr;
@@ -356,6 +364,31 @@ class Python381.BlockBuilder : GLib.Object {
                 }
             break;
             case "[":
+                var arr = new ArrayAccess();
+                if (trail.size > 2) {
+                    unowned Parser.Node sslist = trail[1];
+                    int len = sslist.size;
+                    if (len % 2 == 0) // ended with ',' so even
+                        len--;
+                    len = (len+1)/2;
+                    intr = new RoundBlock[len];
+                    wraps = new Waycat.DragWrapper[len];
+                    for (int i=0; i < len; i++) {
+                        intr[i] = parse_token_argument(sslist[i*2]);
+                        intr[i].on_workbench();
+                        wraps[i] = new Waycat.DragWrapper(intr[i]);
+                    }
+                    var index = parse_token_testlist_comp(trail[1]);
+                    var w = new Waycat.DragWrapper(index);
+                    arr.index.item = index;
+                }
+                var ssplace = arr.index; // XXX: actually not work with multiindex
+                for (int i=0; i < intr.length; i++) {
+                    ssplace.item = intr[i];
+                    ssplace = (RoundPlace)argplace.get_next_sibling().get_next_sibling();
+                }
+                arr.on_workbench();
+                self = arr;
             break;
             case ".":
                 var n = new NameConst.with_name(trail[1].n_str);
