@@ -42,28 +42,6 @@ namespace Python381 {
         }
     }
 
-    class DotName : RoundBlock {
-        public RoundPlace expr = new RoundPlace();
-        public AnglePlace name = new AnglePlace();
-        public DotName () {
-            base("green", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0));
-            content.append(expr);
-            content.append(new Gtk.Label("."));
-            content.append(name);
-        }
-        public DotName.with_nonwrapped_name (AngleBlock n) {
-            this();
-            var w = new Waycat.DragWrapper(n);
-            name.item = n;
-        }
-        public override string serialize() {
-            return expr.serialize() + "." + name.serialize();
-        }
-        public override Parser.Node get_node() {
-            return null;
-        }
-    }
-
     class SeparatedExpr : RoundBlock {
         public static string[] seps  = {
         ", ", " or ", " and ", " not ",
@@ -243,26 +221,6 @@ namespace Python381 {
                             .wrap_for_operator(place.item, ", ");
             }
             return "await "+ function.serialize() + "(" + string.joinv(", ", strings) + ")";
-        }
-    }
-
-    class ArrayAccess : RoundBlock {
-        public RoundPlace array = new RoundPlace();
-        public RoundPlace index = new RoundPlace();
-        public ArrayAccess () {
-            base("purple", new Gtk.Box(Gtk.Orientation.HORIZONTAL, 4));
-            content.append(array);
-            content.append(new Gtk.Label("["));
-            content.append(index);
-            content.append(new Gtk.Label("]"));
-        }
-        public override string serialize() {
-            string a = array.serialize();
-            string i = index.serialize();
-            return @"$a[$i]";
-        }
-        public override Parser.Node get_node() {
-            return null;
         }
     }
 }

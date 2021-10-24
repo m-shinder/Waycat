@@ -299,10 +299,14 @@ class Python381.BlockBuilder : GLib.Object {
             cur = (self as AwaitCallExpr).function;
         else if (self is CallExpr)
             cur = (self as CallExpr).function;
-        else if (self is DotName)
-            cur = (self as DotName).expr;
-        else
-            cur = (self as ArrayAccess).array;
+        else {
+            cur = null;
+            var name = (self as NameAdapter).name.item;
+            if (name is DotName)
+                cur = (name as DotName).expr;
+            if (name is ArrayAccess)
+                cur = (name as ArrayAccess).array;
+        }
 
         for (i = i-1; atomExpr[i].type != Token.ATOM; i--) {
             var t = parse_token_trailer(atomExpr[i], false);
@@ -314,10 +318,10 @@ class Python381.BlockBuilder : GLib.Object {
                     cur = (t as CallExpr).function;
                 break;
                 case "[":
-                    cur = (t as ArrayAccess).array;
+                    cur = ((t as NameAdapter).name.item as ArrayAccess).array;
                 break;
                 case ".":
-                    cur = (t as DotName).expr;
+                    cur = ((t as NameAdapter).name.item as DotName).expr;
                 break;
             }
         }
@@ -329,7 +333,7 @@ class Python381.BlockBuilder : GLib.Object {
     }
 
     private RoundBlock parse_token_trailer(Parser.Node trail, bool await) {
-        RoundBlock self = null;
+        AngleBlock self = null;
         RoundBlock[] intr = null;
         Waycat.DragWrapper[] wraps = null;
         RoundPlace argplace = null;
@@ -349,20 +353,21 @@ class Python381.BlockBuilder : GLib.Object {
                         wraps[i] = new Waycat.DragWrapper(intr[i]);
                     }
                 }
+                RoundBlock func;
                 if (await) {
                     var s = new AwaitCallExpr();
                     argplace = (RoundPlace)s.function.get_next_sibling().get_next_sibling();
-                    self = s;
+                    func = s;
                 } else {
                     var s = new CallExpr();
                     argplace = (RoundPlace)s.function.get_next_sibling().get_next_sibling();
-                    self = s;
+                    func = s;
                 }
                 for (int i=0; i < intr.length; i++) {
                     argplace.item = intr[i];
                     argplace = (RoundPlace)argplace.get_next_sibling().get_next_sibling();
                 }
-            break;
+                return func;
             case "[":
                 var arr = new ArrayAccess();
                 if (trail.size > 2) {
@@ -393,10 +398,11 @@ class Python381.BlockBuilder : GLib.Object {
             case ".":
                 var n = new NameConst.with_name(trail[1].n_str);
                 n.on_workbench();
-                self = new DotName.with_nonwrapped_name(n);
+                var dn = new DotName.with_nonwrapped_name(n);
+                self = dn;
             break;
         }
-        return self;
+        return new NameAdapter.with_nonwrapped_name(self);
     }
 
     private RoundBlock parse_token_argument(Parser.Node arg) {
