@@ -1,0 +1,29 @@
+.mytest:hover {
+	//color: red;
+	background: darker(#155099);
+}
+listview {
+	padding-left: 13px;
+}
+
+listview>row:hover {
+	background: inherit;
+}
+listview:drop(active) {
+	box-shadow: 0 0 0 1px #ca0033 inset;
+}
+
+:drop(active) {
+	box-shadow: none;
+}
+label {
+	font-size: 16px;
+//	font-family: monospace;
+//	font-family: "Ubuntu Mono";
+	//font-style: italic;
+}
+.sourceview {
+	font-size: 16px;
+//	font-family: monospace;
+	font-family: "Ubuntu Mono";
+}
