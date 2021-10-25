@@ -155,11 +155,11 @@ class Python381.BlockBuilder : GLib.Object {
 
     private AngleBlock parse_small_expr_assign_lhs(Parser.Node tlse) {
         if (tlse.size == 1)
-            return get_single_nameConst_from_tlse_child(tlse[0]) as AngleBlock;
+            return get_single_lhs_from_tlse_child(tlse[0]) as AngleBlock;
         var self = new SeparatedNames(", ");
         var place = self.content.get_first_child() as AnglePlace;
         for (int i=0; i<tlse.size; i+=2) {
-            var it = get_single_nameConst_from_tlse_child(tlse[i]);
+            var it = get_single_lhs_from_tlse_child(tlse[i]);
             var w = new Waycat.DragWrapper(it);
             place.item = it;
             it.on_workbench();
@@ -168,7 +168,7 @@ class Python381.BlockBuilder : GLib.Object {
         return self;
     }
 
-    private NameConst get_single_nameConst_from_tlse_child(Parser.Node n) {
+    private NameConst get_single_lhs_from_tlse_child(Parser.Node n) {
         unowned Parser.Node expr;
         if (n.type == Token.TEST)
             expr = n[0][0][0][0][0];
