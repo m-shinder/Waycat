@@ -168,20 +168,22 @@ class Python381.BlockBuilder : GLib.Object {
         return self;
     }
 
-    private NameConst get_single_lhs_from_tlse_child(Parser.Node n) {
+    private AngleBlock get_single_lhs_from_tlse_child(Parser.Node n) {
         unowned Parser.Node expr;
         if (n.type == Token.TEST)
-            expr = n[0][0][0][0][0];
+            return lhs_from_expression(n[0][0][0][0][0]);// expr = n[0][0][0][0][0];
         else
-            expr = n[1];
-        unowned Parser.Node name = get_name_from_expr(expr);
-        var self = new NameConst();
-        self.lbl.text = name.n_str;
-        return self;
+            return lhs_from_expression(n[1]);
     }
+
     private AngleBlock lhs_from_expression(Parser.Node expr) { //8
         unowned var atomexpr = expr[0][0][0][0][0][0][0][0];
-        return null;
+        if (atomexpr.size == 1) // XXX crutch for non-trailed name
+            return new NameConst.with_name(atomexpr[0][0].n_str);
+        var adapter = parse_token_atomExpr(atomexpr) as NameAdapter;
+        var item = adapter.name.item;
+        adapter.name.item = null;
+        return item;
     }
     private unowned Parser.Node get_name_from_expr(Parser.Node expr) {
         lhs_from_expression(expr);
