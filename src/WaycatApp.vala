@@ -8,6 +8,10 @@ class Waycat.WaycatApp : Gtk.Application {
 
     public override void activate() {
         Gtk.Builder builder = new Gtk.Builder();
+        var display = Gdk.Display.get_default();
+        var provider = new Gtk.CssProvider();
+        provider.load_from_resource("/com/example/ui/main.css");
+        Gtk.StyleContext.add_provider_for_display(display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
         try {
             builder.add_from_resource("/com/example/ui/window.ui");
