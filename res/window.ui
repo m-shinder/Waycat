@@ -97,9 +97,10 @@
                             <property name="receives-default">1</property>
                             <child>
                               <object class="GtkImage">
-                                <property name="margin-top">5</property>
-                                <property name="margin-bottom">5</property>
                                 <property name="icon-name">document-save-symbolic</property>
+                                <style>
+                                  <class name="middle"/>
+                                </style>
                               </object>
                             </child>
                           </object>
@@ -110,9 +111,10 @@
                             <property name="receives-default">1</property>
                             <child>
                               <object class="GtkImage">
-                                <property name="margin-top">5</property>
-                                <property name="margin-bottom">5</property>
                                 <property name="icon-name">emblem-synchronizing-symbolic</property>
+                                <style>
+                                  <class name="middle"/>
+                                </style>
                               </object>
                             </child>
                           </object>
@@ -123,9 +125,10 @@
                             <property name="receives-default">1</property>
                             <child>
                               <object class="GtkImage">
-                                <property name="margin-top">5</property>
-                                <property name="margin-bottom">5</property>
                                 <property name="icon-name">media-playback-start-symbolic</property>
+                                <style>
+                                  <class name="middle"/>
+                                </style>
                               </object>
                             </child>
                           </object>

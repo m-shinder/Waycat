@@ -152,6 +152,9 @@
                                 <property name="margin-top">3</property>
                                 <property name="margin-bottom">3</property>
                                 <property name="icon-name">document-save-symbolic</property>
+                                <style>
+                                  <class name="middle"/>
+                                </style>
                               </object>
                             </child>
                           </object>
@@ -173,6 +176,9 @@
                                 <property name="margin-top">3</property>
                                 <property name="margin-bottom">3</property>
                                 <property name="icon-name">emblem-synchronizing-symbolic</property>
+                                <style>
+                                  <class name="middle"/>
+                                </style>
                               </object>
                             </child>
                           </object>
@@ -194,6 +200,9 @@
                                 <property name="margin-top">3</property>
                                 <property name="margin-bottom">3</property>
                                 <property name="icon-name">media-playback-start-symbolic</property>
+                                <style>
+                                  <class name="middle"/>
+                                </style>
                               </object>
                             </child>
                           </object>
