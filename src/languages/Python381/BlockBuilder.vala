@@ -544,7 +544,10 @@ class Python381.BlockBuilder : GLib.Object {
             if (from[i].n_str == "import")
                 break;
             if (from[i].type == Token.DOTTED_NAME) {
-                dname = new NameConst.with_name(from[i][0].n_str);
+                string name = "";
+                for (int j=0; j<from[i].size; j+=2)
+                    name = string.join(name==""?"":".", name, from[i][j].n_str);
+                dname = new NameConst.with_name(name);
                 dname.on_workbench();
                 break;
             }
