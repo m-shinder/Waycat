@@ -112,7 +112,7 @@ namespace Python381 {
         }
         public override string serialize() {
             return "from " + sourcePlace.serialize() + " import " +
-                dotNamesPlace.serialize() + stmt.serialize() + "\n";
+                dotNamesPlace.serialize() + "\n" + stmt.serialize();
         }
     }
     // TODO: flow and import statements
