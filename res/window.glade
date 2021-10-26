@@ -149,6 +149,8 @@
                               <object class="GtkImage">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-top">3</property>
+                                <property name="margin-bottom">3</property>
                                 <property name="icon-name">document-save-symbolic</property>
                               </object>
                             </child>
@@ -168,6 +170,8 @@
                               <object class="GtkImage">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-top">3</property>
+                                <property name="margin-bottom">3</property>
                                 <property name="icon-name">emblem-synchronizing-symbolic</property>
                               </object>
                             </child>
@@ -187,6 +191,8 @@
                               <object class="GtkImage">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-top">3</property>
+                                <property name="margin-bottom">3</property>
                                 <property name="icon-name">media-playback-start-symbolic</property>
                               </object>
                             </child>
@@ -416,6 +422,7 @@
                   </object>
                   <packing>
                     <property name="name">source</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -429,6 +436,7 @@ for gtk4 yet</property>
                   </object>
                   <packing>
                     <property name="name">terminal</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -442,6 +450,7 @@ for gtk4 yet</property>
                   </object>
                   <packing>
                     <property name="name">run-terminal</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>

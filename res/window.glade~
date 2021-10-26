@@ -101,7 +101,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">3</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="middle-top-buttons">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-start">13</property>
@@ -150,6 +150,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="icon-name">document-save-symbolic</property>
+                                <property name="icon_size">3</property>
                               </object>
                             </child>
                           </object>
@@ -169,6 +170,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="icon-name">emblem-synchronizing-symbolic</property>
+                                <property name="icon_size">3</property>
                               </object>
                             </child>
                           </object>
@@ -188,6 +190,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="icon-name">media-playback-start-symbolic</property>
+                                <property name="icon_size">3</property>
                               </object>
                             </child>
                           </object>
@@ -416,6 +419,7 @@
                   </object>
                   <packing>
                     <property name="name">source</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -429,6 +433,7 @@ for gtk4 yet</property>
                   </object>
                   <packing>
                     <property name="name">terminal</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -442,6 +447,7 @@ for gtk4 yet</property>
                   </object>
                   <packing>
                     <property name="name">run-terminal</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>

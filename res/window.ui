@@ -97,6 +97,8 @@
                             <property name="receives-default">1</property>
                             <child>
                               <object class="GtkImage">
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
                                 <property name="icon-name">document-save-symbolic</property>
                               </object>
                             </child>
@@ -108,6 +110,8 @@
                             <property name="receives-default">1</property>
                             <child>
                               <object class="GtkImage">
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
                                 <property name="icon-name">emblem-synchronizing-symbolic</property>
                               </object>
                             </child>
@@ -119,6 +123,8 @@
                             <property name="receives-default">1</property>
                             <child>
                               <object class="GtkImage">
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
                                 <property name="icon-name">media-playback-start-symbolic</property>
                               </object>
                             </child>
