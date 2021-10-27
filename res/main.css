@@ -12,6 +12,11 @@ listview:drop(active) {
 label {
 	font-size: 16px;
 }
+
+image.middle {
+  -gtk-icon-size: 20px;
+}
+
 .sourceview {
 	font-size: 20px;
 	font-family: "Ubuntu Mono";

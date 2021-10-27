@@ -1,7 +1,7 @@
 class Waycat.WaycatApp : Gtk.Application {
     public WaycatApp () {
         Object(
-            application_id: "com.example.dnd",
+            application_id: "com.example.waycat",
             flags : GLib.ApplicationFlags.FLAGS_NONE
         );
     }
