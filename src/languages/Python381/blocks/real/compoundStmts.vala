@@ -32,9 +32,19 @@ namespace Python381 {
             var condition = stanzas[0].content.get_first_child()
                                     .get_next_sibling() as RoundPlace;
             var cond = condition.serialize();
-            var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            var body = "\n  "+ stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            body = body.slice(0, body.length -2);
             var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
-            return @"if $cond:\n  $body$next";
+            var elif = "";
+            for(int i=1; i< stanzas.size - (else_btn.visible?0:1) ;i++) {
+                var econ = stanzas[i].content.get_first_child().get_next_sibling() as RoundPlace;
+                var ebod = "\n  "+stanzas[i].stmt.serialize().replace("\n", "\n  ");
+                ebod = ebod.slice(0, ebod.length -2);
+                elif += "elif " +  econ.serialize() + ":" + ebod;
+            }
+            if (else_btn.visible == false)
+                elif += "else:\n  " + else_stnz.stmt.serialize().replace("\n", "\n  ");
+            return @"if $cond:$body$elif$next";
         }
         public override Parser.Node get_node() {
             return null;
@@ -113,9 +123,13 @@ namespace Python381 {
             var condition = stanzas[0].content.get_first_child()
                                     .get_next_sibling() as RoundPlace;
             var cond = condition.serialize();
-            var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            var body = "\n  "+ stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            body = body.slice(0, body.length -2);
             var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
-            return @"while $cond:\n  $body$next";
+            var els = "";
+            if (else_btn.visible == false)
+                els = "else:\n  " + else_stnz.stmt.serialize().replace("\n", "\n  ");
+            return @"while $cond:$body$els$next";
         }
         public override Parser.Node get_node() {
             return null;
@@ -170,9 +184,13 @@ namespace Python381 {
                                     .get_next_sibling() as RoundPlace;
             var iter = iterator.serialize();
             var val  = values.serialize();
-            var body = stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            var body = "\n  "+ stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            body = body.slice(0, body.length -2);
             var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
-            return @"for $iter in $val:\n  $body$next";
+            var els = "";
+            if (else_btn.visible == false)
+                els = "else:\n  " + else_stnz.stmt.serialize().replace("\n", "\n  ");
+            return @"for $iter in $val:$body$els$next";
         }
         public override Parser.Node get_node() {
             return null;
