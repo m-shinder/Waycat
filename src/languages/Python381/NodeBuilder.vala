@@ -25,7 +25,9 @@ class Python381.NodeBuilder : GLib.Object {
         return "";
     }
 
-    public string wrap_for_operator(RoundBlock blk, string op) {
+    public string wrap_for_operator(RoundBlock? blk, string op) {
+        if (blk == null)
+            return "";
         var block = blk as SeparatedExpr;
         if (block == null)
             return blk.serialize();
