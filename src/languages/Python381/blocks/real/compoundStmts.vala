@@ -224,7 +224,6 @@ namespace Python381 {
                 Stanza(new Gtk.Box(Gtk.Orientation.HORIZONTAL, 5), new StatementPlace(40)),
             });
             stanzas[0].content.append(new Gtk.Label("try"));
-            stanzas[0].content.append(new RoundPlace());
             stanzas[0].content.append(elif_btn);
             footer = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 1);
 
@@ -242,7 +241,19 @@ namespace Python381 {
         }
 
         public override string serialize() {
-            return "IF";
+            var body = "\n  "+ stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            body = body.slice(0, body.length -2);
+            var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
+            var elif = "";
+            for(int i=1; i< stanzas.size - (else_btn.visible?0:1) ;i++) {
+                var econ = stanzas[i].content.get_first_child().get_next_sibling() as RoundPlace;
+                var ebod = "\n  "+stanzas[i].stmt.serialize().replace("\n", "\n  ");
+                ebod = ebod.slice(0, ebod.length -2);
+                elif += "except " +  econ.serialize() + ":" + ebod;
+            }
+            if (else_btn.visible == false)
+                elif += "finally:\n  " + else_stnz.stmt.serialize().replace("\n", "\n  ");
+            return @"try:$body$elif$next";
         }
         public override Parser.Node get_node() {
             return null;
@@ -303,7 +314,13 @@ namespace Python381 {
             footer.set_parent(this);
         }
         public override string serialize() {
-            return "IF";
+            var condition = stanzas[0].content.get_first_child()
+                                    .get_next_sibling().get_first_child() as RoundPlace;
+            var cond = condition.serialize();
+            var body = "\n  "+ stanzas[0].stmt.serialize().replace("\n", "\n  ");
+            body = body.slice(0, body.length -2);
+            var next = (stmt.item != null)? "\n" + stmt.serialize() : "";
+            return @"with $cond:$body$next";
         }
         public override Parser.Node get_node() {
             return null;
