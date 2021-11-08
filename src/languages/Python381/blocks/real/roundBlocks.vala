@@ -46,7 +46,8 @@ namespace Python381 {
         public static string[] seps  = {
         ", ", " or ", " and ", " not ",
         " < ", " > ", " == ", " >= ", " <= ",
-        " <> ", " != ", " | ", " ^ ", " & ", " >> ", " << ", " + ", " - ", " * ",
+        " <> ", " != ", " | ", " ^ ", " & ", " >> ", " << ", " + ", " - ",
+        " * ", " / ", " // ", " % ", " ** "
     };
         public Gtk.Popover popover = new Gtk.Popover();
         public string separator;
@@ -92,6 +93,7 @@ namespace Python381 {
         }
 
         public void click_cb(string s) {
+            separator = s;
             var w = content.get_first_child();
             while ( (w = w.get_next_sibling() ) != null)
                 if (w is Gtk.Label)
