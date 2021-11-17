@@ -61,7 +61,6 @@ class Python381Language : Waycat.Language {
                 buffer.delete_mark(anchor.end);
                 anchor.end = null;
                 block.break_free();
-                print("requesting to refresh anchor\n");
                 update_insert(anchor);
             } else {
                 block.break_free();
@@ -135,7 +134,6 @@ class Python381Language : Waycat.Language {
     }
 
     public override void run() {
-        print("running\n");
         FileIOStream tmpout;
         var file = File.new_tmp(null, out tmpout);
         save_buffer_to_oStream(tmpout.get_output_stream() as FileOutputStream);
