@@ -78,7 +78,7 @@ class Python381.EditableLabel : BlockComponent {
             cr.set_line_width(3);
             cr.stroke();
             entry.get_preferred_size(null, null);
-            entry.allocate_size({0,0, 56,34}, -1);
+            entry.allocate_size({0,h, 56,34}, -1);
         }
 
         label.allocate_size({WIDTH_STEP/2,0, w-WIDTH_STEP,h}, -1);
