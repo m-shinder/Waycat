@@ -17,6 +17,6 @@ namespace Waycat {
             button = (Gtk.ToggleButton)button.get_next_sibling();
         }
         stack.set_visible_child_name("source");
-        ((Gtk.SourceView)stack.get_child_by_name("source")).set_buffer(code_buffer);
+        ((GtkSource.View)stack.get_child_by_name("source")).set_buffer(code_buffer);
     }
 }

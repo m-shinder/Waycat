@@ -1,9 +1,9 @@
 using Python381;
 class Python381Language : Waycat.Language {
     public Python381Language() {
-        buffer = new Gtk.SourceBuffer(tag_table);
+        buffer = new GtkSource.Buffer(tag_table);
         buffer.set_language(
-            Gtk.SourceLanguageManager.get_default().get_language("python3")
+            GtkSource.LanguageManager.get_default().get_language("python3")
         );
     }
 

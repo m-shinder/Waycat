@@ -13,7 +13,7 @@ public class Waycat.Category : Object {
 
 public abstract class Waycat.Language : Object {
     protected Gtk.TextTagTable tag_table = new Gtk.TextTagTable();
-    public Gtk.SourceBuffer buffer {get; protected set;}
+    public GtkSource.Buffer buffer {get; protected set;}
     
     public abstract Category[] get_categories();
     public abstract Block[] get_blocks();
