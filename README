@@ -1,4 +1,10 @@
 # Waycat -- scratch-like editor for programming languages
+Waycat is extensible block editor for programming languages.
+Current goal is finalizing python3.8 support and then move to python3.10.
+Since python3.10 have PEG grammar instead of LL(1),
+I'm researching this topic and currently do not provide any updates for Waycat
+until I'll be ready to do a python3.10 LanguageAPI for Waycat.
+You can still use Waycat, write your issues, etc.
 
 ## How to build
 the easies way, is using GnomeBuilder, select folder, and click "run"
@@ -12,9 +18,22 @@ ninja
 	. vala (tested with 0.54)
 	. gtk4 -- the newest (not the best)
 	. sourceview-5
+	. python3.8-embed
+
 ### Known issues:
-. sombody messed up with vapi files
+. somebody messed up with vapi files
 	INFILE: `/usr/share/vala-X.YY/vapi/gtk4.vapi`
 	LINE: `public virtual bool get_value (GLib.Value value) throws GLib.Error;`
 	SHOULDBE `public virtual bool get_value (ref GLib.Value value) throws GLib.Error;`
 
+### Contributing
+I'm writing Waycat on my own.
+not thinking about convenience to understand it, or even read.
+If you want to contribute here is topics that you may try to improve
+. Windows support: I gave up on trying to make Waycat usable on Windows
+always facing problems with file opening and GTK theming.
+Despite that on windows Waycat need different way to run code
+. Code quality: There is always things to improve.
+You can find some TODOs and solve them. You can make lines not exceed 80 chars.
+You can remove useless comments and write useful. Do what you want!
+. JS support: Uhm, idk. I'll probably never make it. Or i will. Will I.. Will You... NVM!    
